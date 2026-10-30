@@ -9,3 +9,15 @@ rev = "v4.35.0"
 
 [[lean_lib]]
 name = "VerifiedSqrt"
+
+[[lean_exe]]
+name = "checkInstructions"
+root = "CheckInstructions"
+
+[[lean_exe]]
+name = "checkCore32"
+root = "CheckCore32"
+
+[[lean_exe]]
+name = "checkMachine32"
+root = "CheckMachine32"

@@ -1,0 +1,18 @@
+'VerifiedSqrt.real_sqrt_square' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.midpoint_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.correction_error_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.square_root_not_half_integer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.estimate_table_bounds' does not depend on any axioms
+'VerifiedSqrt.Sqrt.certificate32_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Sqrt.significand32_positive' depends on axioms: [propext, Quot.sound]
+instructions=43 bytes=172 sha256=11d3b708814cafc159f049efcb4cfc78eba1feec7e198952a1f7403300d3eee6 fsqrt=false
+FPCR=0x0000000000000000
+RMode=0 FZ=0 DN=0
+exception_enables=0x00 AH=0 FIZ=0
+rows=17077262 random_per_op_per_DN=1000000 seed=6a09e667f3bcc909
+PASS rows=17077262 per_op=#[2319770, 2059582, 2059582, 2659582, 2659582, 2659582, 2659582] results_and_FPSR=true
+PASS normalized_inputs=16777216 exact_integer_midpoint_certificates=true
+routine_rows=2204188 random_per_DN=1100000 seed=bb67ae8584caa73b
+PASS machine_rows=2204188 algorithm_hardware_and_FPSR=true
+checked=4294967296 begin=0 end=4294967296 DN=0 failures=0 seconds=10.130
+checked=4294967296 begin=0 end=4294967296 DN=1 failures=0 seconds=8.223

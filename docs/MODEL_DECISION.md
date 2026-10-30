@@ -6,6 +6,11 @@ Choose option 3: a minimal Lean instruction model transcribed from Arm's
 architecture pseudocode. This is a selection, not a completed or validated model.
 Implementation stops here at the requested Phase 0 checkpoint.
 
+Continuation note: the original archive has since been obtained and a binary32
+model implemented. See [ARM_MODEL.md](ARM_MODEL.md) for current scope and
+[BINARY32.md](BINARY32.md) for the remaining proof obligations. The rest of this
+file records the Phase 0 audit.
+
 ## 1. LNSym
 
 Inspected commit `5c05220ff970e3bdd7813ad0c9ef3741522c8b92` of
