@@ -8,6 +8,14 @@ namespace VerifiedSqrt.Arm
 
 def Machine.WellFormed (s : Machine) : Prop := s.x.size = 32 ∧ s.v.size = 32
 
+theorem Machine.readX_congr (s t : Machine) (h : s.x = t.x) (r : Nat) :
+    s.readX r = t.readX r := by
+  simp only [Machine.readX, h]
+
+theorem Machine.readW_congr (s t : Machine) (h : s.x = t.x) (r : Nat) :
+    s.readW r = t.readW r := by
+  exact congrArg UInt64.toUInt32 (Machine.readX_congr s t h r)
+
 theorem Machine.readX_writeX_same (s : Machine) (d : Nat) (hd : d < 31)
     (hs : s.x.size = 32) (w : UInt64) : (s.writeX d w).readX d = w := by
   have hn : d ≠ 31 := by omega

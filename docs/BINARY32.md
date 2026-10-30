@@ -94,6 +94,14 @@ even significand in any tie. The proof establishes strict distance minimization,
 so a square-root tie cannot occur. This is an algorithm theorem; the remaining
 machine proof must connect it to execution of the assembled instructions.
 
+`CorrectionTermination.lean` proves execution of the extracted correction-loop
+instructions from byte offset 184 to 224. Any candidate in `[2^23,2^24]` reaches
+the algorithm's corrected significand in at most `12*2^23+10` instructions.
+The proof covers both branch directions, arithmetic without wraparound, and
+preservation of every general-purpose register except X0/X2, all SIMD registers,
+FPCR, and FPSR. It assumes the radicand and candidate are already in their loop
+entry registers; connecting that state to input handling remains open.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -102,11 +110,11 @@ uses mathematical invariants rather than enumerating inputs.
 ## Remaining work
 
 1. Prove execution of the extracted words equals the algorithm for every permitted
-   caller state, including correction-loop termination, frame conditions, and
-   code placement. The current execution fuel is a test-fixture bound, not a
-   proved machine-level bound.
-2. Complete the reusable bridge from dyadic nearest-even rounding to the binary32
-   encoder, exponent selection, and overflow/underflow behavior.
-
-These obligations block the requested binary32 end-to-end theorem and the
-transition to binary64. No proof admits a goal or uses native proof computation.
+   caller state, including input handling, normalization, estimate instructions,
+   return encoding, and code placement. The correction-loop bound is proved;
+   the whole-program execution bound is still a test-fixture bound.
+This machine obligation blocks the requested binary32 end-to-end theorem and the
+transition to binary64. Generalizing the reusable rounding/encoding bridge to
+all overflow and underflow cases is future work; the corrected algorithm needs
+only the exact scaling cases proved here. No proof admits a goal or uses native
+proof computation.

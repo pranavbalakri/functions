@@ -16,10 +16,10 @@ Updated 2026-10-30 (America/New_York).
   The proof includes exact 2^48 subnormal scaling and exponent rescaling.
 - Reusable proofs cover exact dyadic arithmetic, nearest-even coefficient
   rounding, uniqueness, estimate-table bounds, and binary32 decoding.
-- Machine lemmas now cover register writes/frame properties, symbolic decoding
-  of correction instructions, exact fixed-width midpoint comparisons, and a
-  three-instruction block executed from the extracted code. Whole-loop and
-  whole-program composition remain open.
+- `normalized_correction_loop_correct` proves the actual extracted correction
+  loop terminates within 12*2^23+10 instructions and returns the algorithm's
+  corrected significand. It preserves every GPR except X0/X2, all SIMD registers,
+  FPCR and FPSR. Whole-program composition remains open.
 - The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
@@ -27,9 +27,11 @@ Updated 2026-10-30 (America/New_York).
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: prove machine execution and termination for arbitrary permitted caller states and code
-placement; finish the reusable binary32 rounding/encoding bridge. Additional
-single-step tests for moves and arbitrary SIMD upper lanes remain.
+Remaining: connect the input handling, normalization, estimate, correction loop,
+and return instructions for arbitrary permitted caller states and code placement.
+Additional single-step tests for moves and arbitrary SIMD upper lanes remain.
+General overflow/underflow rounding lemmas are future reusable work; the corrected
+algorithm does not need them.
 
 The binary32 end-to-end theorem is incomplete. Do not start binary64 until it is
 proved. Ask before native proof computation. Only the README Layout section may

@@ -47,3 +47,8 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.upper_comparison_exact
 #print axioms VerifiedSqrt.Arm.lower_square_block
 #print axioms VerifiedSqrt.Arm.lower_square_block_value
+#print axioms VerifiedSqrt.Arm.run_add_fuel
+#print axioms VerifiedSqrt.Arm.lower_test_pc
+#print axioms VerifiedSqrt.Arm.upper_test_pc
+#print axioms VerifiedSqrt.Arm.correction_loop_correct
+#print axioms VerifiedSqrt.Arm.normalized_correction_loop_correct
