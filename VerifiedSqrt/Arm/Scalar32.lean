@@ -1,6 +1,7 @@
 module
 
 public import VerifiedSqrt.Float.Dyadic
+public import VerifiedSqrt.Arm.Estimate
 
 @[expose] public section
 
@@ -78,19 +79,6 @@ public def mulAdd32 (dn : Bool) (a b c : UInt32) : FPResult :=
     else if isZero32 c && (isZero32 a || isZero32 b) && sign32 c == sp then
       ⟨signed32 sp 0, 0⟩
     else round32 ((unpack32 c).add ((unpack32 a).mul (unpack32 b)))
-
-public def estimateLoop (a : Nat) : Nat → Nat → Nat
-  | 0, b => (b + 1) / 2
-  | fuel + 1, b =>
-    if a * (b + 1) * (b + 1) ≥ 2 ^ 28 then (b + 1) / 2
-    else estimateLoop a fuel (b + 1)
-
-public def recipSqrtEstimate (a : Nat) : Nat :=
-  let a := if a < 256 then 2 * a + 1 else 2 * (2 * (a / 2) + 1)
-  estimateLoop a 512 512
-
-public def recipSqrtTable : Array Nat :=
-  (List.range 384).toArray.map fun i => recipSqrtEstimate (128 + i)
 
 public def rsqrtEstimate32 (dn : Bool) (x : UInt32) : FPResult := Id.run do
   if isNaN32 x then return processNaN32 dn x

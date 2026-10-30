@@ -31,9 +31,15 @@ Updated 2026-10-30 (America/New_York).
   pass. [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
 - All integer forms used by binary32 now have separate single-step hardware
-  coverage. Binary64's scalar model is being validated against hardware.
+  coverage.
+- Binary64 now has an 81-instruction implementation using three Newton steps,
+  FMA correction, and 128-bit integer midpoint comparisons. It passed
+  2,014,705,018 bitwise FSQRT comparisons, including two billion random inputs.
+  Its scalar FP model passed 18,912,386 result/FPSR comparisons. No binary64
+  algorithm or machine theorem is claimed yet. [Details](docs/BINARY64.md).
 
-Remaining: binary64 implementation and proof. General overflow/underflow rounding lemmas
+Remaining: binary64 algorithm proof, decoder extension, extra instruction checks,
+and machine proof. General overflow/underflow rounding lemmas
 are future reusable work; binary32 needs only the exact scaling cases proved.
 
 Ask before native proof computation. Only the README Layout section may be edited.

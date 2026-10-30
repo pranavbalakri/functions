@@ -14,7 +14,7 @@ The original Arm archive is now available locally under `.research/`:
 encodings, register accesses, negations, and branching behavior. The corresponding
 Sail translation pinned in the Phase 0 report was also cross-checked.
 
-The Lean definitions implement the binary32, nearest-even, gradual-underflow,
+The scalar Lean definitions implement binary32 and binary64, nearest-even, gradual-underflow,
 non-AltFP cases. They preserve NaN payload/sign selection when DN is clear and
 return default NaNs when DN is set. Underflow is detected before rounding,
 including values rounded up to the smallest normal. FPSR results include invalid,
@@ -27,6 +27,11 @@ discarded integer remainder to nearest-even, and encodes the result. This is an
 executable specialization of the pseudocode's exact-real rounding operation;
 the general proof connecting it to a Mathlib real-number rounding relation is
 still outstanding. Native `Float` arithmetic is not used in these definitions.
+
+`Scalar64.lean` uses the same operations with 53-bit significands, 11-bit
+exponents, and binary64 special encodings. `Estimate.lean` holds the shared
+estimate table. Its double-precision operations passed 18,912,386 hardware
+comparisons; the instruction decoder still covers only the binary32 routine.
 
 The estimate loop has 512 fuel steps. For the relevant inputs, the transformed
 index is at least 257, and the pseudocode loop has already stopped by `b=1024`.

@@ -2,6 +2,8 @@ module
 
 public import VerifiedSqrt.Setup
 public import VerifiedSqrt.Arm.Scalar32
+public import VerifiedSqrt.Arm.Scalar64
+public import VerifiedSqrt.Arm.Sqrt64Code
 public import VerifiedSqrt.Float.Real
 public import VerifiedSqrt.Float.DyadicRounding
 public import VerifiedSqrt.Sqrt.Algorithm32

@@ -29,3 +29,7 @@ root = "CheckInteger"
 [[lean_exe]]
 name = "checkScalarState"
 root = "CheckScalarState"
+
+[[lean_exe]]
+name = "checkInstructions64"
+root = "CheckInstructions64"
