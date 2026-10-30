@@ -19,7 +19,11 @@ Updated 2026-10-30 (America/New_York).
 - `normalized_correction_loop_correct` proves the actual extracted correction
   loop terminates within 12*2^23+10 instructions and returns the algorithm's
   corrected significand. It preserves every GPR except X0/X2, all SIMD registers,
-  FPCR and FPSR. Whole-program composition remains open.
+  FPCR and FPSR.
+- `correction_return_correct` connects that loop to result encoding and RET.
+  It proves the returned S0 bits equal the algorithm's rescaled result, preserves
+  the caller's link register, and requires a return address outside the code.
+  Whole-program composition remains open.
 - The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
@@ -27,8 +31,8 @@ Updated 2026-10-30 (America/New_York).
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: connect the input handling, normalization, estimate, correction loop,
-and return instructions for arbitrary permitted caller states and code placement.
+Remaining: connect input handling, normalization, and the estimate/loop-setup
+instructions to the proved correction/return block; cover arbitrary code placement.
 Additional single-step tests for moves and arbitrary SIMD upper lanes remain.
 General overflow/underflow rounding lemmas are future reusable work; the corrected
 algorithm does not need them.

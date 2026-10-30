@@ -100,4 +100,39 @@ theorem step_back_upper (s : Machine) (hc : supportedControls s.fpcr = true) :
   rw [hc]
   cbv
 
+theorem step_result_bias (s : Machine) (hc : supportedControls s.fpcr = true) :
+    step 0x52a7e001 s =
+      some (({s with pc := s.pc + 4} : Machine).writeW 1 0x3f000000) := by
+  unfold step
+  rw [hc]
+  cbv
+
+theorem step_add_result_bias (s : Machine) (hc : supportedControls s.fpcr = true) :
+    step 0x0b010000 s =
+      some (({s with pc := s.pc + 4} : Machine).writeW 0 (s.readW 0 + s.readW 1)) := by
+  unfold step
+  rw [hc]
+  cbv
+  simp only [shift_zero32]
+
+theorem step_add_result_exponent (s : Machine) (hc : supportedControls s.fpcr = true) :
+    step 0x0b045c00 s =
+      some (({s with pc := s.pc + 4} : Machine).writeW 0 (s.readW 0 + (s.readW 4 <<< 23))) := by
+  unfold step
+  rw [hc]
+  cbv
+
+theorem step_result_to_scalar (s : Machine) (hc : supportedControls s.fpcr = true) :
+    step 0x1e270000 s =
+      some (({s with pc := s.pc + 4} : Machine).writeS 0 (s.readW 0)) := by
+  unfold step
+  rw [hc]
+  cbv
+
+theorem step_return (s : Machine) (hc : supportedControls s.fpcr = true) :
+    step 0xd65f03c0 s = some {s with pc := s.readX 30} := by
+  unfold step
+  rw [hc]
+  cbv
+
 end VerifiedSqrt.Arm

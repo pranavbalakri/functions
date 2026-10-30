@@ -45,4 +45,39 @@ theorem run_add_fuel (code : Array UInt32) (stop : UInt64) (fuel extra : Nat)
           exact ih next hn
     · simp [run, hp, ha] at h
 
+theorem run_compose (code : Array UInt32) (middle stop : UInt64) (before after : Nat)
+    (s t u : Machine) (hstop : code[stop.toNat / 4]? = none)
+    (hbefore : run code middle before s = some t)
+    (hafter : run code stop after t = some u) :
+    run code stop (before + after) s = some u := by
+  induction before generalizing s with
+  | zero =>
+    by_cases hp : s.pc = middle
+    · have ht : s = t := by simpa [run, hp] using hbefore
+      subst s
+      simpa using hafter
+    · simp [run, hp] at hbefore
+  | succ before ih =>
+    by_cases hp : s.pc = middle
+    · have ht : s = t := by simpa [run, hp] using hbefore
+      subst s
+      simpa only [Nat.add_comm] using run_add_fuel code stop after (before + 1) t u hafter
+    by_cases ha : s.pc.toNat % 4 = 0
+    · cases hw : code[s.pc.toNat / 4]? with
+      | none => simp [run, hp, ha, hw] at hbefore
+      | some word =>
+        have hne : s.pc ≠ stop := by
+          intro h
+          rw [h, hstop] at hw
+          contradiction
+        cases hs : step word s with
+        | none => simp [run, hp, ha, hw, hs] at hbefore
+        | some next =>
+          have hn : run code middle before next = some t := by
+            simpa [run, hp, ha, hw, hs] using hbefore
+          rw [show before + 1 + after = (before + after) + 1 by omega,
+            run_step code stop (before + after) s next word hne ha hw hs]
+          exact ih next hn
+    · simp [run, hp, ha] at hbefore
+
 end VerifiedSqrt.Arm

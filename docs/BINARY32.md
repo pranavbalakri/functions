@@ -102,6 +102,13 @@ preservation of every general-purpose register except X0/X2, all SIMD registers,
 FPCR, and FPSR. It assumes the radicand and candidate are already in their loop
 entry registers; connecting that state to input handling remains open.
 
+`CorrectionReturn32.lean` composes the loop with the five result-encoding and
+return instructions. For an encoded signed scale exponent and a return address
+outside the code, it proves that S0 contains exactly `rescale32 (core32 x) k`
+after returning through the caller's link register. The proof includes the
+32-bit modular arithmetic used to add a negative exponent. All GPRs except
+X0/X1/X2, all SIMD registers except V0, FPCR, and FPSR are preserved by this block.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -111,7 +118,7 @@ uses mathematical invariants rather than enumerating inputs.
 
 1. Prove execution of the extracted words equals the algorithm for every permitted
    caller state, including input handling, normalization, estimate instructions,
-   return encoding, and code placement. The correction-loop bound is proved;
+   loop setup, and code placement. The correction/return bound is proved;
    the whole-program execution bound is still a test-fixture bound.
 This machine obligation blocks the requested binary32 end-to-end theorem and the
 transition to binary64. Generalizing the reusable rounding/encoding bridge to

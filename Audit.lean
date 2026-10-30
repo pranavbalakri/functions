@@ -52,3 +52,8 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.upper_test_pc
 #print axioms VerifiedSqrt.Arm.correction_loop_correct
 #print axioms VerifiedSqrt.Arm.normalized_correction_loop_correct
+#print axioms VerifiedSqrt.Arm.run_compose
+#print axioms VerifiedSqrt.Arm.word32_add_shift23
+#print axioms VerifiedSqrt.Arm.step_return
+#print axioms VerifiedSqrt.Arm.return_correct
+#print axioms VerifiedSqrt.Arm.correction_return_correct

@@ -15,4 +15,5 @@ public import VerifiedSqrt.Arm.InstructionProof
 public import VerifiedSqrt.Arm.IntegerArithmetic
 public import VerifiedSqrt.Arm.CorrectionBlock
 public import VerifiedSqrt.Arm.CorrectionTermination
+public import VerifiedSqrt.Arm.CorrectionReturn32
 public import VerifiedSqrt.Arm.EstimateProof
