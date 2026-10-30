@@ -64,6 +64,17 @@ It is not a theorem that these initial values may be assumed for real callers.
 The final machine proof must quantify the caller state, prove register/frame
 conditions and code placement, and establish termination and algorithm equality.
 
+`Registers.lean` proves model-level write/read and preservation properties for
+well-sized register arrays. `InstructionProof.lean` proves symbolic semantics
+for the actual correction-loop opcodes under the FP-control precondition.
+`IntegerArithmetic.lean` proves that zero-extended 32-bit multiplication is exact
+in 64 bits, that the midpoint formation does not wrap in the candidate range,
+and that the machine comparisons equal the natural-number comparisons.
+`CorrectionBlock.lean` proves execution of the three extracted words at offsets
+184, 188, and 192 and the resulting lower-midpoint square. It does not yet prove
+the complete correction loop or the routine. Opcode evaluation uses
+kernel-checked computation; none of these lemmas adds a native-computation axiom.
+
 Validation compares the actual compiled Lean definitions with hardware, not a
 second C model. Per-instruction testing covers the FP operations and now also X LSLV, UMULL,
 W/X CMP, B, B.EQ, B.LO, and B.HI. The added integer forms were transcribed from

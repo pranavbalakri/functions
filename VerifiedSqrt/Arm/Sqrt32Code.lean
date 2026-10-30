@@ -4,7 +4,7 @@ public import Std
 
 namespace VerifiedSqrt.Arm
 
-public def sqrt32Code : Array UInt32 := #[
+@[expose] public def sqrt32Code : Array UInt32 := #[
   0x1e260000, 0x12007801, 0x34000741, 0x37f80740,
   0x52aff002, 0x6b02001f, 0x540006c0, 0x540006c8,
   0x52800004, 0x53177801, 0x350000e1, 0x52aaf002,

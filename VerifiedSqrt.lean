@@ -10,4 +10,7 @@ public import VerifiedSqrt.Sqrt.Encoding32
 public import VerifiedSqrt.Sqrt.Correction32
 public import VerifiedSqrt.Arm.Sqrt32Code
 public import VerifiedSqrt.Arm.Machine
+public import VerifiedSqrt.Arm.InstructionProof
+public import VerifiedSqrt.Arm.IntegerArithmetic
+public import VerifiedSqrt.Arm.CorrectionBlock
 public import VerifiedSqrt.Arm.EstimateProof

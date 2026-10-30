@@ -35,7 +35,7 @@ words = struct.unpack("<" + "I" * (len(text) // 4), text)
 if any((w & 0xfffffc00) in (0x1e21c000, 0x1e61c000) for w in words):
     raise SystemExit("FSQRT found in routine")
 lean = "module\n\npublic import Std\n\nnamespace VerifiedSqrt.Arm\n\n"
-lean += "public def sqrt32Code : Array UInt32 := #[\n"
+lean += "@[expose] public def sqrt32Code : Array UInt32 := #[\n"
 lean += ",\n".join("  " + ", ".join(f"0x{w:08x}" for w in words[i:i + 4]) for i in range(0, len(words), 4))
 lean += "\n]\n\nend VerifiedSqrt.Arm\n"
 outputs = {

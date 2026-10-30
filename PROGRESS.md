@@ -15,6 +15,10 @@ Updated 2026-10-29 (America/New_York).
   still need proofs before this becomes an all-input algorithm theorem.
 - Reusable proofs cover exact dyadic arithmetic, nearest-even coefficient
   rounding, uniqueness, estimate-table bounds, and binary32 decoding.
+- Machine lemmas now cover register writes/frame properties, symbolic decoding
+  of correction instructions, exact fixed-width midpoint comparisons, and a
+  three-instruction block executed from the extracted code. Whole-loop and
+  whole-program composition remain open.
 - The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.

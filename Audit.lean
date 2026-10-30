@@ -26,3 +26,12 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Sqrt.correctIntegerRoot_certificate
 #print axioms VerifiedSqrt.Sqrt.coreCorrect32
 #print axioms VerifiedSqrt.Sqrt.normalizedCore32_correct
+#print axioms VerifiedSqrt.Arm.Machine.readX_writeW_same
+#print axioms VerifiedSqrt.Arm.Machine.readS_writeS_same
+#print axioms VerifiedSqrt.Arm.step_double_candidate
+#print axioms VerifiedSqrt.Arm.step_compare_midpoint
+#print axioms VerifiedSqrt.Arm.step_back_lower
+#print axioms VerifiedSqrt.Arm.lower_comparison_exact
+#print axioms VerifiedSqrt.Arm.upper_comparison_exact
+#print axioms VerifiedSqrt.Arm.lower_square_block
+#print axioms VerifiedSqrt.Arm.lower_square_block_value
