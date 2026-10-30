@@ -15,7 +15,7 @@ theorem word64_ofInt_nonneg (n : Int) (hn : 0 ≤ n) :
 theorem word64_ofInt_nat (n : Nat) : UInt64.ofInt (n : Int) = UInt64.ofNat n := by
   rw [word64_ofInt_nonneg _ (by omega), Int.toNat_natCast]
 
-theorem word64_ofInt_toNat (w : UInt64) : UInt64.ofInt (w.toNat : Int) = w := by
+theorem word64_fromInt_toNat (w : UInt64) : UInt64.ofInt (w.toNat : Int) = w := by
   rw [word64_ofInt_nat, UInt64.ofNat_toNat]
 
 theorem word64_shift52 (w : UInt64) : w <<< 52 = w * 0x10000000000000 := by
@@ -34,7 +34,7 @@ theorem word64_add_shift52 (q : UInt64) (k : Int)
     q + (UInt64.ofInt k <<< 52) = UInt64.ofNat ((q.toNat : Int) + k * 2 ^ 52).toNat := by
   calc
     q + (UInt64.ofInt k <<< 52) = UInt64.ofInt (q.toNat : Int) + UInt64.ofInt (k * 2 ^ 52) := by
-      rw [word64_ofInt_toNat, word64_shift52_ofInt]
+      rw [word64_fromInt_toNat, word64_shift52_ofInt]
     _ = UInt64.ofInt ((q.toNat : Int) + k * 2 ^ 52) := (UInt64.ofInt_add _ _).symm
     _ = _ := word64_ofInt_nonneg _ hn
 

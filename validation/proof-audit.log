@@ -1,52 +1,3 @@
-'VerifiedSqrt.real_sqrt_square' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1595/1678] Replayed VerifiedSqrt.Float.Real
-info: VerifiedSqrt/Float/Real.lean:39:0: 'VerifiedSqrt.midpoint_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
-info: VerifiedSqrt/Float/Real.lean:40:0: 'VerifiedSqrt.correction_error_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
-info: VerifiedSqrt/Float/Real.lean:41:0: 'VerifiedSqrt.square_root_not_half_integer' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1596/1678] Replayed VerifiedSqrt.Sqrt.Certificate32
-info: VerifiedSqrt/Sqrt/Certificate32.lean:46:0: 'VerifiedSqrt.Sqrt.certificate32_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1610/1678] Replayed VerifiedSqrt.Sqrt.Certificate64
-info: VerifiedSqrt/Sqrt/Certificate64.lean:46:0: 'VerifiedSqrt.Sqrt.certificate64_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
-✔ [1637/1678] Built VerifiedSqrt.Arm.Execution (2.3s)
-✔ [1638/1678] Built VerifiedSqrt.Arm.Relocation (2.3s)
-✔ [1639/1678] Built VerifiedSqrt.Arm.StepInvariants (2.2s)
-✔ [1640/1678] Built VerifiedSqrt.Arm.InstructionProof (2.4s)
-✔ [1641/1678] Built VerifiedSqrt.Arm.FloatInstructions (2.3s)
-✔ [1642/1678] Built VerifiedSqrt.Arm.LocatedExecution (503ms)
-✔ [1643/1678] Built CheckScalarState (2.9s)
-✔ [1645/1678] Built CheckMachine32 (2.8s)
-✔ [1647/1678] Built VerifiedSqrt.Arm.Estimate32 (693ms)
-✔ [1648/1678] Built VerifiedSqrt.Arm.SetupInstructions (660ms)
-✔ [1649/1678] Built VerifiedSqrt.Arm.RelocatedExecution (577ms)
-✔ [1650/1678] Built checkScalarState:exe (481ms)
-✔ [1651/1678] Built checkMachine32:exe (573ms)
-✔ [1652/1678] Built VerifiedSqrt.Arm.CorrectionBlock (1.1s)
-✔ [1653/1678] Built VerifiedSqrt.Arm.InputInstructions (667ms)
-✔ [1654/1678] Built VerifiedSqrt.Arm.SpecialReturn32 (701ms)
-✔ [1655/1678] Built VerifiedSqrt.Arm.NormalizeInstructions (3.5s)
-✔ [1656/1678] Built VerifiedSqrt.Arm.Scale32 (3.0s)
-✔ [1657/1678] Built VerifiedSqrt.Arm.CorrectionLoop (3.6s)
-✔ [1658/1678] Built VerifiedSqrt.Arm.Setup32 (3.0s)
-✔ [1659/1678] Built VerifiedSqrt.Arm.ClassifyState32 (3.6s)
-✔ [1660/1678] Built VerifiedSqrt.Arm.CorrectionFrame (559ms)
-✔ [1661/1678] Built VerifiedSqrt.Arm.Prepare32 (1.8s)
-✔ [1662/1678] Built VerifiedSqrt.Arm.Normalize32 (2.0s)
-✔ [1663/1678] Built VerifiedSqrt.Arm.Classify32 (1.7s)
-✔ [1664/1678] Built VerifiedSqrt.Arm.CorrectionTermination (1.9s)
-✔ [1665/1678] Built VerifiedSqrt.Arm.RelocateInstructions32 (3.1s)
-✔ [1666/1678] Built VerifiedSqrt.Arm.Contract32 (1.4s)
-✔ [1667/1678] Built VerifiedSqrt.Arm.Return32 (8.9s)
-✔ [1668/1678] Built VerifiedSqrt.Arm.Sqrt32Invariants (2.1s)
-✔ [1669/1678] Built VerifiedSqrt.Arm.CorrectionReturn32 (1.2s)
-✔ [1670/1678] Built VerifiedSqrt.Arm.SetupReturn32 (1.2s)
-✔ [1671/1678] Built VerifiedSqrt.Arm.NormalizedBody32 (1.2s)
-✔ [1672/1678] Built VerifiedSqrt.Arm.NormalizeReturn32 (1.2s)
-✔ [1673/1678] Built VerifiedSqrt.Arm.PositiveReturn32 (1.2s)
-✔ [1674/1678] Built VerifiedSqrt.Arm.Correctness32 (1.3s)
-✔ [1675/1678] Built VerifiedSqrt.Arm.Initial32 (1.3s)
-✔ [1676/1678] Built VerifiedSqrt.Arm.RelocatedSqrt32 (1.3s)
-✔ [1677/1678] Built VerifiedSqrt (1.2s)
-Build completed successfully (1678 jobs).
 /Users/pranavbalakri/.elan/bin/lake env lean --trust=0 Audit.lean
 'VerifiedSqrt.real_sqrt_square' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.midpoint_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -145,3 +96,27 @@ Build completed successfully (1678 jobs).
 'VerifiedSqrt.Arm.run64_compose' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.Arm.lower_square64_block' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.Arm.lower_square64_block_value' depends on axioms: [propext, Quot.sound]
+'VerifiedSqrt.Arm.Steps64.run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.lower_compare64_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.upper_compare64_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.normalized_correction_loop64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.return64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.setup64_radicand_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.estimate64_trace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.word64_shift52_low32' depends on axioms: [propext, Quot.sound]
+'VerifiedSqrt.Arm.normalized_body64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.normalize64_word' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.normalize64_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.scale64_word_subnormal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.positive_body64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.input64_zero_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.input64_negative_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.input64_infinity_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.input64_unequal_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.machine_algorithm64' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.machine_sqrt64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.machine64_eq_algorithm64' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.machine64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.sqrt64_step_relocate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.run64_relocate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.sqrt64_relocated_correct' depends on axioms: [propext, Classical.choice, Quot.sound]

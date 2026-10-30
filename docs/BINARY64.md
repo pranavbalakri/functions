@@ -1,4 +1,4 @@
-# Binary64 status
+# Binary64 algorithm and machine proof
 
 The 81-instruction AArch64 routine in `asm/sqrt64.S` uses scalar double-precision
 FRSQRTE, three FRSQRTS Newton refinements, the FMA residual/correction, and exact
@@ -44,16 +44,37 @@ the proved algorithm and hardware on 2,232,976 inputs, including FPSR. Separate
 instruction checks cover the additional forms and complete SIMD state, and
 forced-correction tests exercise seeds above and below the correct root.
 
-`WideArithmetic.lean` proves that MUL/UMULH reconstruct the exact 128-bit product
-and that comparing the high halves and then the low halves equals comparison
-of the represented integers. It also proves exact lower/upper midpoint formation
-throughout the candidate range. `CorrectionBlock64.lean` proves execution of the
-four extracted instructions at offsets 208–220 and the resulting lower-midpoint
-square. `Execution64.lean` supplies execution-composition lemmas.
+`WideArithmetic.lean` proves that MUL/UMULH reconstruct exact 128-bit products
+and that high/low comparisons equal comparison of the represented integers.
+`CorrectionStage64.lean` connects these operations to the extracted branch
+instructions. `CorrectionTermination64.lean` proves that each adjustment moves
+toward the unique nearest integer root, terminates, and preserves the radicand.
+Its worst-case bound is `20*2^52+18` instructions for any candidate in
+`[2^52,2^53]`; this bound needs no approximation-error assumption.
 
-The kernel axiom audit reports only the existing standard axioms, with no
-admitted goals or native proof computation. The remaining machine proof must
-establish correction-loop control flow and termination and compose it with
-input preparation, floating-point evaluation, encoding, return, and relocation.
-The completed universal machine theorem currently applies to binary32; the
-binary64 hardware tests do not replace that obligation.
+`NormalizedBody64.lean` composes the fifteen FP instructions, twelve integer
+setup instructions, correction loop, and five encoding/return instructions.
+`Word64.lean` proves the modular exponent addition, including negative scales
+held in W4 and shifted through X4. `Normalize64.lean`, `Scale64.lean`, and
+`Prepare64.lean` establish the normalized input and exact subnormal adjustment.
+`Classify64.lean` and `SpecialReturn64.lean` cover zeros, infinities, negatives,
+and NaNs.
+
+`Arm/Correctness64.lean` proves `machine_sqrt64_correct`: execution from entry
+through RET terminates within `20*2^52+75` instructions and returns `SqrtSpec64`
+for every input encoding. Caller register contents and FPSR are arbitrary; the
+FP controls, register-array sizes, and return-address conditions are explicit.
+X7–X30, V6–V31, and FPCR are preserved. FPSR may accumulate intermediate flags;
+matching the exception flags of a single FSQRT is not the result specification.
+
+`machine64_correct` specializes this result to the executable model fixture,
+proving its `2^58` budget sufficient for every input and either DN setting.
+`sqrt64_relocated_correct` proves the same result at every aligned 64-bit code
+address, including modular address wraparound. It proves relocation of every
+extracted opcode and composes the steps. The general register, trace, modular
+arithmetic, and relocation glue remains separate from square-root mathematics.
+
+The full build and trust-zero kernel audit cover both precisions. Audited
+theorems use only subsets of `propext`, `Classical.choice`, and `Quot.sound`.
+There are no admitted goals or native proof computations. See
+[BUILD.md](BUILD.md) for the theorem, trusted boundary, and reproduction commands.

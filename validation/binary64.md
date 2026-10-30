@@ -52,13 +52,13 @@ steps on either side of the answer and up to 4,096 steps away on edge cases.
 The test-only entry label adds no instructions to the production routine.
 
 Outputs are preserved in [binary64.log](binary64.log). These tests are separate
-from `algorithm64_correct`, which now proves the algorithm's result specification
-for every input and both DN settings without enumeration. The universal machine
-proof remains outstanding. The full build and kernel axiom audit pass for both
-algorithm proofs and the binary32 machine proof. Audited theorems depend only on
-subsets of `propext`, `Classical.choice`, and `Quot.sound`; see
-[proof-audit.log](proof-audit.log).
+from the universal algorithm and machine proofs. `algorithm64_correct`,
+`machine_sqrt64_correct`, `machine64_correct`, and `sqrt64_relocated_correct`
+prove the result specification for every input and both DN settings, including
+arbitrary caller registers and aligned code addresses, without enumeration.
 
-The audit also covers exact 128-bit multiplication/comparison lemmas and
-execution of the lower-midpoint square block. These are parts of the remaining
-machine proof, not a claim of end-to-end binary64 verification.
+The final build checks the same production instruction bytes used by these
+hardware tests. The trust-zero kernel audit covers both complete machine proofs,
+including correction termination, exact 128-bit arithmetic, input preparation,
+return, and relocation. Audited theorems depend only on subsets of `propext`,
+`Classical.choice`, and `Quot.sound`; see [proof-audit.log](proof-audit.log).

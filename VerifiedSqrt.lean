@@ -28,4 +28,6 @@ public import VerifiedSqrt.Arm.CorrectionTermination64
 public import VerifiedSqrt.Arm.Return64
 public import VerifiedSqrt.Arm.Setup64
 public import VerifiedSqrt.Arm.Estimate64
+public import VerifiedSqrt.Arm.Initial64
+public import VerifiedSqrt.Arm.RelocatedSqrt64
 public import VerifiedSqrt.Arm.EstimateProof

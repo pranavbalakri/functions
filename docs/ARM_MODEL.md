@@ -25,8 +25,10 @@ Exact arithmetic is represented as an integer coefficient times an integral
 power of two. `round32` normalizes using the coefficient's bit length, rounds the
 discarded integer remainder to nearest-even, and encodes the result. This is an
 executable specialization of the pseudocode's exact-real rounding operation;
-the general proof connecting it to a Mathlib real-number rounding relation is
-still outstanding. Native `Float` arithmetic is not used in these definitions.
+the real-number bridge proves the exact scaling cases needed by these routines.
+A general theorem covering every overflow/underflow case is outside this proof.
+The corrected square-root proof permits any FP approximation result and proves
+the final nearest-even result using exact integer inequalities. Native `Float` arithmetic is not used in these definitions.
 
 `Scalar64.lean` uses the same operations with 53-bit significands, 11-bit
 exponents, and binary64 special encodings. `Estimate.lean` holds the shared
@@ -106,3 +108,11 @@ against the algorithm and hardware. Integer branch tests use the same +8-byte
 displacements as their decoded words. The binary32 integer checks were rerun
 after aligning these displacements and excluding unsupported SP forms; all
 33,103,488 cases still pass. Production instruction bytes are unchanged.
+
+The binary64 machine theorem is also complete. `machine_sqrt64_correct` permits
+arbitrary registers and proves termination within `20*2^52+75` instructions;
+`sqrt64_relocated_correct` covers every aligned code address. `machine64_correct`
+proves the executable fixture correct with its `2^58` budget. The proof follows
+the actual high/low midpoint comparisons, correction branches, normalization,
+subnormal scaling, special values, and return. [BUILD.md](BUILD.md) states the
+shared trusted boundary and rebuild commands.

@@ -167,8 +167,8 @@ uses mathematical invariants rather than enumerating inputs.
 ## Remaining work
 
 Binary32's algorithm and machine proofs, relocation proof, exhaustive result
-tests, and instruction-model comparisons are complete. Binary64 implementation
-and proof are the next phase.
+tests, and instruction-model comparisons are complete. Binary64 implementation, all-input machine proof, relocation, and hardware
+validation are also complete; see [BINARY64.md](BINARY64.md).
 
 Generalizing the reusable rounding/encoding bridge to all overflow and underflow
 cases is future work; the corrected algorithm needs only the exact scaling cases
