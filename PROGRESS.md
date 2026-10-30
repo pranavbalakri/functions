@@ -17,6 +17,10 @@ Updated 2026-10-29 (America/New_York).
   nearest-even rounding for every integer right shift and every signed dyadic
   at a chosen exponent; rounding uniqueness; and the unique rounded significand
   implied by a square-root certificate. [Rounding proofs](docs/ROUNDING.md).
+- Connected normalized binary32 input/output encodings to real values. A valid
+  certificate now proves that the actual core output is strictly closer to the
+  real square root than every different finite binary32 value, including values
+  outside [1,2]. This still requires the unproved certificate hypothesis.
 - No new axioms, admitted proofs, or native_decide. Axiom audits pass.
 - Final `make test` passed: 17,077,262 instruction comparisons, all 16,777,216
   normalized-core certificates, 2,204,188 machine comparisons, and both full
@@ -26,8 +30,9 @@ Blocking proof work: connect the proved dyadic rounding rule to binary32 encodin
 exponent selection, overflow, and underflow;
 prove CoreCorrect32 universally, prove scaling/special cases, and prove symbolic
 machine-to-algorithm equality for arbitrary permitted caller states. A direct
-kernel exhaustive proof hit the recursion limit. Passing executable checks are
-not proofs. [Details](docs/BINARY32.md).
+kernel exhaustive proof hit the recursion limit. A balanced checker proved 64
+inputs, but a 4,096-input trial exceeded 45 seconds. Passing executable checks
+are not proofs. [Details](docs/BINARY32.md).
 
 Phase 1's binary32 implementation/testing milestone is ready; the required
 binary32 end-to-end proof is incomplete. Do not begin binary64 until it is proved.

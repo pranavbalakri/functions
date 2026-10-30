@@ -26,6 +26,15 @@ scaled square root. They retain the explicit certificate hypothesis.
 input, remains unproved. These are reusable lemmas and intermediate results,
 not a replacement for the requested end-to-end theorem.
 
+`Arm/Scalar32Real.lean` connects the model's bit fields and finite-value decoder
+to real arithmetic. `Sqrt/Encoding32.lean` proves the normalization identities
+for inputs in `[1,4)` and outputs in `[1,2]`. Given a valid certificate,
+`certificate32_result_unique_float` proves strict distance minimization against
+every different finite binary32 value, not just the integer significand grid.
+The proof handles candidates below 1 and above 2 separately, so it includes the
+change in spacing at those boundaries. It excludes a rounding tie under the
+certificate hypothesis; the universal certificate proof remains necessary.
+
 Run `make proof` to build these proofs and run the axiom audit. They use Lean's
 standard logical axioms `propext`, `Classical.choice`, and `Quot.sound`; they add
 no axioms and use neither admitted proofs nor native proof computation.

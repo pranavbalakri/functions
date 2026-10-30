@@ -16,3 +16,10 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Dyadic.round_nearest
 #print axioms VerifiedSqrt.Sqrt.certificate32_nearest
 #print axioms VerifiedSqrt.Sqrt.certificate32_unique
+#print axioms VerifiedSqrt.Arm.sign32_true_of_ge
+#print axioms VerifiedSqrt.Arm.unpack32_positive_normal
+#print axioms VerifiedSqrt.Sqrt.normalized32_value
+#print axioms VerifiedSqrt.Sqrt.normalized32_result_value
+#print axioms VerifiedSqrt.Sqrt.certificate32_result_error
+#print axioms VerifiedSqrt.Sqrt.certificate32_result_nearest_float
+#print axioms VerifiedSqrt.Sqrt.certificate32_result_unique_float

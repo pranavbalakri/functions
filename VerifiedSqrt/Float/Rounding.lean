@@ -84,6 +84,18 @@ theorem nearestEvenInteger_of_lt {x : ℝ} {q : ℤ}
     (h : |(q : ℝ) - x| < 1 / 2) : NearestEvenInteger x q := by
   exact ⟨nearestInteger_of_half x q (le_of_lt h), fun ht => by linarith⟩
 
+theorem nearestInteger_strict_of_lt {x : ℝ} {q z : ℤ}
+    (h : |(q : ℝ) - x| < 1 / 2) (hne : q ≠ z) :
+    |(q : ℝ) - x| < |(z : ℝ) - x| := by
+  have hb := abs_lt.mp h
+  rcases lt_or_gt_of_ne hne with hz | hz
+  · have hstep : (q : ℝ) + 1 ≤ z := by exact_mod_cast hz
+    rw [abs_of_nonneg (by linarith : 0 ≤ (z : ℝ) - x)]
+    exact abs_lt.mpr ⟨by linarith, by linarith⟩
+  · have hstep : (z : ℝ) + 1 ≤ q := by exact_mod_cast hz
+    rw [abs_of_nonpos (by linarith : (z : ℝ) - x ≤ 0)]
+    exact abs_lt.mpr ⟨by linarith, by linarith⟩
+
 theorem roundShiftEven_bounds (n k : Nat) :
     let q := (roundShiftEven n k).1
     let d := 2 ^ k

@@ -68,6 +68,11 @@ on the finite universal statement hit the recursion limit; a concrete one-input
 kernel check succeeds. The large failed trial lives only in ignored `build/`.
 No admitted theorem or weakened replacement was added.
 
+A balanced Boolean range checker avoids the linear recursion shape. A kernel
+trial on 64 normalized inputs succeeded; a trial on 4,096 inputs was stopped
+after 45 seconds without a result. This has not supplied a practical exhaustive
+kernel proof of all 16,777,216 inputs.
+
 The remaining work is:
 
 1. Connect the proved real RN-even semantics of dyadic rounding to the binary32
