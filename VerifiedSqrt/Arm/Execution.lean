@@ -45,6 +45,12 @@ theorem run_add_fuel (code : Array UInt32) (stop : UInt64) (fuel extra : Nat)
           exact ih next hn
     · simp [run, hp, ha] at h
 
+theorem run_of_le_fuel (code : Array UInt32) (stop : UInt64) (fuel limit : Nat)
+    (s t : Machine) (hle : fuel ≤ limit) (h : run code stop fuel s = some t) :
+    run code stop limit s = some t := by
+  have hr := run_add_fuel code stop fuel (limit - fuel) s t h
+  simpa only [Nat.add_sub_cancel' hle] using hr
+
 theorem run_compose (code : Array UInt32) (middle stop : UInt64) (before after : Nat)
     (s t u : Machine) (hstop : code[stop.toNat / 4]? = none)
     (hbefore : run code middle before s = some t)

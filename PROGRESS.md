@@ -3,48 +3,33 @@
 Updated 2026-10-30 (America/New_York).
 
 - README describes the intended completed project. Actual status is recorded here.
-- The user approved an exact integer midpoint correction after the Markstein/FMA
-  steps. Binary32 now uses 67 AArch64 instructions, no FSQRT, and no double
-  floating-point arithmetic. Subnormals use 2^48 scaling; the core uses [1,4).
-- Proved the correction loop terminates within its supplied distance bound and
-  returns the unique nearest integer square root. Its binary32 instance proves
-  `coreCorrect32` for all 2^24 normalized inputs, without exhaustive proof
-  computation or assumptions about the initial estimate's accuracy.
-- `algorithm32_correct` proves the complete binary32 algorithm satisfies
-  `SqrtSpec32` for every input and both DN settings: nearest-even square root for
-  positive finite values, preserved signed zeros/infinity, and exact NaN bits.
-  The proof includes exact 2^48 subnormal scaling and exponent rescaling.
-- Reusable proofs cover exact dyadic arithmetic, nearest-even coefficient
-  rounding, uniqueness, estimate-table bounds, and binary32 decoding.
-- `normalized_correction_loop_correct` proves the actual extracted correction
-  loop terminates within 12*2^23+10 instructions and returns the algorithm's
-  corrected significand. It preserves every GPR except X0/X2, all SIMD registers,
-  FPCR and FPSR.
-- `correction_return_correct` connects that loop to result encoding and RET.
-  It proves the returned S0 bits equal the algorithm's rescaled result, preserves
-  the caller's link register, and requires a return address outside the code.
-- `normalized_body_correct` connects all instructions from byte offset 100
-  through RET: Markstein/FMA evaluation, exact loop setup, correction, and result
-  encoding. `normalized_body_rounds` proves nearest-even rounding for the scaled
-  normalized input. It permits arbitrary SIMD contents and needs no estimate
-  accuracy assumption. GPRs X4–X30, SIMD registers V6–V31, and FPCR are preserved.
-- `normalization_return_correct` extends that result back to byte offset 68.
-  The signed arithmetic shift, parity mask, exponent packing, and scalar move
-  produce exactly the algorithm's normalized input and saved scale exponent.
-- The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
-  machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
-  integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
-  The unchanged FP model previously passed 17,077,262 comparisons.
-- Another 4,595,820 hardware comparisons cover scalar moves and floating-point
-  instructions with arbitrary SIMD upper bits, existing FPSR flags, and NZCV.
-- No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
-  [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
+- Binary32 uses 67 AArch64 instructions: reciprocal-root estimation, two Newton
+  refinements, FMA residual correction, and the user-approved exact integer
+  midpoint correction. No FSQRT or double floating-point arithmetic. Subnormals
+  use exact 2^48 scaling, and the core input lies in [1,4).
+- `algorithm32_correct` proves `SqrtSpec32` for every input and both DN settings:
+  nearest-even square root for positive finite values, preserved signed zeros
+  and positive infinity, and exact NaN results.
+- `machine_sqrt32_correct` now proves execution of every path of the extracted
+  code, from entry through RET. It allows arbitrary initial register contents,
+  assumes supported FP controls, 32-entry register arrays, entry PC zero, and a
+  return address outside the code. It proves termination within 12*2^23+61
+  instructions and preserves X5–X30, V6–V31, and FPCR.
+- `machine32_correct` proves the executable machine fixture returns the specified
+  result for all 2^32 encodings and both DN settings. No enumeration is used in
+  the all-input proof. The correction proof needs no estimate accuracy bound.
+- Assembly passed both full 2^32 hardware sweeps, 2,204,188 machine comparisons,
+  16,777,216 core certificates, 8,025,088 integer/branch comparisons, and
+  1,000,012 forced-correction tests. FP operations passed 17,077,262 comparisons;
+  another 4,595,820 scalar-state cases cover moves, arbitrary SIMD upper bits,
+  existing FPSR flags, and NZCV.
+- No admitted goals, new axioms, or native proof computation. Kernel axiom audits
+  pass. [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: connect input classification and subnormal scaling (offsets 0–64)
-to the proved normalization/body; cover arbitrary code placement.
-General overflow/underflow rounding lemmas are future reusable work; the corrected
-algorithm does not need them.
+Remaining: generalize execution from modeled code address zero to arbitrary
+aligned load addresses; add single-step tests for the remaining integer forms.
+Then implement and prove binary64. General overflow/underflow rounding lemmas
+are future reusable work; binary32 needs only the exact scaling cases proved.
 
-The binary32 end-to-end theorem is incomplete. Do not start binary64 until it is
-proved. Ask before native proof computation. Only the README Layout section may
-be edited.
+Do not start binary64 before closing the binary32 relocation obligation. Ask
+before native proof computation. Only the README Layout section may be edited.

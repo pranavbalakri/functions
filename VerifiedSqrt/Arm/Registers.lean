@@ -122,6 +122,40 @@ theorem Machine.vector_advanceS_ne (s : Machine) (d r : Nat) (hne : d ≠ r) (w 
     (s.advanceS d w).v[r]! = s.v[r]! :=
   Machine.vector_writeS_ne _ d r hne w
 
+theorem Machine.readS_advanceS_ne (s : Machine) (d r : Nat) (hne : d ≠ r) (w : UInt32) :
+    (s.advanceS d w).readS r = s.readS r := by
+  simp only [Machine.readS, Machine.vector_advanceS_ne s d r hne w]
+
+def Machine.advanceFP (s : Machine) (d : Nat) (w : FPResult) : Machine :=
+  ({s with pc := s.pc + 4} : Machine).writeFP d w
+
+theorem Machine.advanceFP_pc (s : Machine) (d : Nat) (w : FPResult) :
+    (s.advanceFP d w).pc = s.pc + 4 := rfl
+
+theorem Machine.advanceFP_registers (s : Machine) (d : Nat) (w : FPResult) :
+    (s.advanceFP d w).x = s.x := rfl
+
+theorem Machine.advanceFP_fpcr (s : Machine) (d : Nat) (w : FPResult) :
+    (s.advanceFP d w).fpcr = s.fpcr := rfl
+
+theorem Machine.advanceFP_vector_size (s : Machine) (d : Nat) (w : FPResult) :
+    (s.advanceFP d w).v.size = s.v.size := by
+  simp [Machine.advanceFP, Machine.writeFP, Machine.writeS]
+
+theorem Machine.readW_advanceFP (s : Machine) (d r : Nat) (w : FPResult) :
+    (s.advanceFP d w).readW r = s.readW r := rfl
+
+theorem Machine.readX_advanceFP (s : Machine) (d r : Nat) (w : FPResult) :
+    (s.advanceFP d w).readX r = s.readX r := rfl
+
+theorem Machine.readS_advanceFP_same (s : Machine) (d : Nat) (hd : d < 32)
+    (hs : s.v.size = 32) (w : FPResult) : (s.advanceFP d w).readS d = w.bits :=
+  Machine.readS_writeS_same ({s with pc := s.pc + 4} : Machine) d hd hs w.bits
+
+theorem Machine.vector_advanceFP_ne (s : Machine) (d r : Nat) (hne : d ≠ r) (w : FPResult) :
+    (s.advanceFP d w).v[r]! = s.v[r]! :=
+  Machine.vector_writeS_ne _ d r hne w.bits
+
 theorem Machine.advanceW_pc (s : Machine) (d : Nat) (w : UInt32) :
     (s.advanceW d w).pc = s.pc + 4 := by
   by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]

@@ -58,11 +58,14 @@ The RPRES estimate behavior is inactive when AH is zero. User-mode FP/SIMD acces
 and instruction availability are assumed; privilege and trap controls are outside
 this fragment.
 
-`machine32` is a test fixture: code starts at address zero, X30 is 4096, other
-initial general registers are zero, and there is a 2^28-step execution budget.
-It is not a theorem that these initial values may be assumed for real callers.
-The final machine proof must quantify the caller state, prove register/frame
-conditions and code placement, and establish termination and algorithm equality.
+`machine32` is an executable fixture: code starts at address zero, X30 is 4096,
+other initial general registers are zero, and its execution budget is 2^28.
+`machine32_correct` now proves its result specification for every input and both
+DN settings. The stronger `machine_sqrt32_correct` permits arbitrary register
+contents and any return address outside the code, proves termination within
+12*2^23+61 instructions, and establishes algorithm equality and register/frame
+conditions. It retains entry PC zero; relocation to arbitrary aligned code
+addresses remains unproved.
 
 `Registers.lean` proves model-level write/read and preservation properties for
 well-sized register arrays. `InstructionProof.lean` proves symbolic semantics
@@ -71,8 +74,9 @@ for the actual correction-loop opcodes under the FP-control precondition.
 in 64 bits, that the midpoint formation does not wrap in the candidate range,
 and that the machine comparisons equal the natural-number comparisons.
 `CorrectionBlock.lean` proves execution of the three extracted words at offsets
-184, 188, and 192 and the resulting lower-midpoint square. It does not yet prove
-the complete correction loop or the routine. Opcode evaluation uses
+184, 188, and 192 and the resulting lower-midpoint square. The subsequent loop,
+normalization, classification, and return proofs compose these blocks into the
+complete execution theorem in `Arm/Correctness32.lean`. Opcode evaluation uses
 kernel-checked computation; none of these lemmas adds a native-computation axiom.
 
 Validation compares the actual compiled Lean definitions with hardware, not a
@@ -80,7 +84,7 @@ second C model. Per-instruction testing covers the FP operations and now also X 
 W/X CMP, B, B.EQ, B.LO, and B.HI. The added integer forms were transcribed from
 `lslv.xml`, `umaddl.xml`, `subs_addsub_shift.xml`, `b_uncond.xml`, and `b_cond.xml`.
 Eight million random cases plus boundary cases check registers, NZCV, PC, and
-preservation of SIMD/control state. Moves and remaining integer forms are
-exercised in complete routine executions; separate single-step tests for them
-and arbitrary SIMD upper-lane writes remain outstanding. These limitations are part
-of the remaining machine-model validation work.
+preservation of SIMD/control state. Another 4,595,820 comparisons cover scalar
+moves and FP operations with arbitrary SIMD upper bits, initial FPSR, and NZCV.
+The remaining integer forms are exercised in complete routine executions;
+separate single-step tests for those forms remain outstanding.

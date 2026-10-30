@@ -68,3 +68,15 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.normalize_word
 #print axioms VerifiedSqrt.Arm.normalize_exponent
 #print axioms VerifiedSqrt.Arm.normalization_return_correct
+#print axioms VerifiedSqrt.Arm.mul32_dn_independent
+#print axioms VerifiedSqrt.Arm.scale_word_subnormal
+#print axioms VerifiedSqrt.Arm.positive_body_correct
+#print axioms VerifiedSqrt.Arm.input_zero_run
+#print axioms VerifiedSqrt.Arm.input_negative_run
+#print axioms VerifiedSqrt.Arm.input_infinity_run
+#print axioms VerifiedSqrt.Arm.input_unequal_run
+#print axioms VerifiedSqrt.Arm.special_body_correct
+#print axioms VerifiedSqrt.Arm.machine_algorithm32
+#print axioms VerifiedSqrt.Arm.machine_sqrt32_correct
+#print axioms VerifiedSqrt.Arm.machine32_eq_algorithm32
+#print axioms VerifiedSqrt.Arm.machine32_correct

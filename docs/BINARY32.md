@@ -91,8 +91,8 @@ quiets input NaNs while preserving their bits unless DN requests the default
 NaN. For positive finite inputs it requires a positive finite result nearest
 to the mathematical square root among all finite binary32 values, choosing an
 even significand in any tie. The proof establishes strict distance minimization,
-so a square-root tie cannot occur. This is an algorithm theorem; the remaining
-machine proof must connect it to execution of the assembled instructions.
+so a square-root tie cannot occur. `Arm/Correctness32.lean` connects this algorithm
+theorem to execution of the assembled instructions, as described below.
 
 `CorrectionTermination.lean` proves execution of the extracted correction-loop
 instructions from byte offset 184 to 224. Any candidate in `[2^23,2^24]` reaches
@@ -100,7 +100,7 @@ the algorithm's corrected significand in at most `12*2^23+10` instructions.
 The proof covers both branch directions, arithmetic without wraparound, and
 preservation of every general-purpose register except X0/X2, all SIMD registers,
 FPCR, and FPSR. It assumes the radicand and candidate are already in their loop
-entry registers; connecting that state to input handling remains open.
+entry registers; the subsequent block proofs establish these entry conditions.
 
 `CorrectionReturn32.lean` composes the loop with the five result-encoding and
 return instructions. For an encoded signed scale exponent and a return address
@@ -125,6 +125,30 @@ prove the arithmetic right shift and parity extraction for negative exponents.
 The composed bound is `12*2^23+44`; GPRs X5–X30, SIMD registers V6–V31, and FPCR
 are preserved.
 
+`Scale32.lean` and `Prepare32.lean` prove the normal/subnormal branch and the
+six scaling instructions. `NaNControl32.lean` proves that DN does not affect
+multiplication of non-NaN operands. `PositiveReturn32.lean` composes these blocks
+with normalization and proves algorithm equality for every positive finite
+input from offset 32 through return.
+
+`Classify32.lean` proves the initial classification branches.
+`SpecialReturn32.lean` proves the signed-zero/infinity return and the FRSQRTE
+special-value path. `Arm/Correctness32.lean` combines every path:
+`machine_sqrt32_correct` proves that execution of the extracted code terminates
+and returns a result satisfying `SqrtSpec32` for every input. Its preconditions
+are entry PC zero, 32-entry general/SIMD register arrays, `supportedControls`
+(RN-even, gradual underflow, masked exceptions, and ordinary FP behavior), and
+a return address outside the code. DN is unrestricted, as are initial register
+contents and FPSR. The bound is `12*2^23+61` instructions. X5–X30, V6–V31, and
+FPCR are preserved. FPSR may accumulate flags; equality with FSQRT's exception
+flags is not part of the result specification.
+
+`Initial32.lean` specializes this theorem to the executable machine fixture.
+`machine32_eq_algorithm32` proves algorithm equality, and `machine32_correct`
+proves the result specification for all 2^32 input encodings and both DN settings.
+The existing 2^28 fixture budget is now proved sufficient. These are universal
+proofs, independent of the exhaustive hardware tests.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -132,12 +156,12 @@ uses mathematical invariants rather than enumerating inputs.
 
 ## Remaining work
 
-1. Prove execution of the extracted words equals the algorithm for every permitted
-   caller state, including input classification, subnormal scaling, and code
-   placement. The normalization/body execution bound is proved;
-   the whole-program execution bound is still a test-fixture bound.
-This machine obligation blocks the requested binary32 end-to-end theorem and the
-transition to binary64. Generalizing the reusable rounding/encoding bridge to
-all overflow and underflow cases is future work; the corrected algorithm needs
-only the exact scaling cases proved here. No proof admits a goal or uses native
-proof computation.
+The all-input machine theorem uses code loaded at modeled address zero.
+Generalizing execution to arbitrary aligned load addresses remains open; this
+relocation obligation must be closed before starting binary64. Remaining integer
+instruction forms also need separate single-step hardware comparisons, beyond
+their existing coverage in complete routine executions.
+
+Generalizing the reusable rounding/encoding bridge to all overflow and underflow
+cases is future work; the corrected algorithm needs only the exact scaling cases
+proved here. No proof admits a goal or uses native proof computation.

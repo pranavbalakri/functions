@@ -81,6 +81,9 @@ were unchanged, so the exhaustive sweeps were not repeated for this addition.
 has no axiom dependencies. The other audited results use subsets of `propext`,
 `Classical.choice`, and `Quot.sound`. No `sorryAx` or native-computation axiom is
 present. `algorithm32_correct` proves the algorithm for every binary32 input.
-`normalized_body_rounds` proves machine execution and rounding from the normalized
-core's entry through return. The complete machine-equivalence theorem remains
-unproved; see [the exact open obligations](../docs/BINARY32.md).
+`machine_sqrt32_correct` proves machine execution from entry through return with
+arbitrary register contents, supported controls, entry PC zero, and a return
+address outside the code. `machine32_correct` proves the executable fixture's
+result specification for every input and both DN settings. The 2026-10-30 audit
+is recorded in [proof-audit.log](proof-audit.log). Relocation to arbitrary code
+addresses remains open; see [the exact obligations](../docs/BINARY32.md).
