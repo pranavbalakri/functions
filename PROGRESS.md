@@ -2,6 +2,9 @@
 
 Updated 2026-10-29 (America/New_York).
 
+- README now presents the intended completed project, with a note linking here
+  for actual status. This documentation change does not change proof completion.
+
 - Binary32 implementation: 43 AArch64 instructions, no FSQRT, no double-precision
   arithmetic. Subnormals use 2^48 scaling; the core operates in [1,4).
 - Both full 2^32 hardware sweeps passed, one each for DN=0 and DN=1.
