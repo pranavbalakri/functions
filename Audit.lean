@@ -90,3 +90,10 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Sqrt.scaleSubnormal64_value
 #print axioms VerifiedSqrt.Sqrt.algorithm64_positive_rounds
 #print axioms VerifiedSqrt.Sqrt.algorithm64_correct
+#print axioms VerifiedSqrt.Arm.wideValue_product
+#print axioms VerifiedSqrt.Arm.wideLess_exact
+#print axioms VerifiedSqrt.Arm.lower_comparison128_exact
+#print axioms VerifiedSqrt.Arm.upper_comparison128_exact
+#print axioms VerifiedSqrt.Arm.run64_compose
+#print axioms VerifiedSqrt.Arm.lower_square64_block
+#print axioms VerifiedSqrt.Arm.lower_square64_block_value

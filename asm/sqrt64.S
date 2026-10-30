@@ -56,6 +56,10 @@ Lnormalize64:
     and x0, x0, #0xfffffffffffff
     add x0, x0, x1
 Lcorrect64:
+#ifdef SQRT64_TESTING
+.globl _verified_sqrt_correct_entry
+_verified_sqrt_correct_entry:
+#endif
     add x2, x0, x0
     sub x2, x2, #1
     umulh x6, x2, x2

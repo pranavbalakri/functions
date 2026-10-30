@@ -16,7 +16,7 @@ static uint64_t random_bits(void) {
 #define EXEC(instruction) __asm__ volatile("msr nzcv, %[initial]\n" instruction "\nmrs %[flags], nzcv" \
     : [r] "+&r"(result), [flags] "=r"(flags), [taken] "+&r"(taken) \
     : [a] "r"(a), [b] "r"(b), [initial] "r"(initial) : "cc")
-#define BRANCH(instruction) EXEC(instruction " 1f\nmov %[taken], #0\nb 2f\n1:\nmov %[taken], #1\n2:")
+#define BRANCH(instruction) EXEC("mov %[taken], #1\n" instruction " 1f\nmov %[taken], #0\n1:")
 
 static void record(FILE *out, uint64_t op, uint64_t a, uint64_t b, uint64_t before, uint64_t nzcv) {
     uint64_t result = before, flags, taken = 0, initial = nzcv << 28;

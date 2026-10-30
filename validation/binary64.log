@@ -2,3 +2,10 @@ rows=18912386 random_per_op_per_DN=1000000 seed=6a09e667f3bcc909
 PASS rows=18912386 per_op=#[4154894, 2059582, 2059582, 2659582, 2659582, 2659582, 2659582] results_and_FPSR=true
 checked=1007352509 random=1000000000 DN=0 failures=0 seconds=7.553 seed=243f6a8885a308d3
 checked=1007352509 random=1000000000 DN=1 failures=0 seconds=7.554 seed=a43f6a8885a308d3
+integer_rows=25129600 random_per_op=1000000 seed=3c6ef372fe94f82b
+PASS integer_rows=25129600 per_op=#[1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184, 1005184] registers_flags_and_PC=true
+scalar_rows=4595820 random_per_op_per_DN=200000 seed=510e527fade682d1
+PASS scalar_rows=4595820 per_op=#[459582, 459582, 459582, 459582, 459582, 459582, 459582, 459582, 459582, 459582] full_SIMD_GPR_flags_and_PC=true
+routine_rows=2232976 random_per_DN=1100000 seed=bb67ae8584caa73b
+PASS machine_rows=2232976 algorithm_hardware_and_FPSR=true
+forced_correction_cases=1000012 failures=0 seed=a54ff53a5f1d36f1

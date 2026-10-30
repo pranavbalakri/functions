@@ -1,26 +1,52 @@
 'VerifiedSqrt.real_sqrt_square' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1559/1661] Replayed VerifiedSqrt.Float.Real
+ℹ [1595/1678] Replayed VerifiedSqrt.Float.Real
 info: VerifiedSqrt/Float/Real.lean:39:0: 'VerifiedSqrt.midpoint_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: VerifiedSqrt/Float/Real.lean:40:0: 'VerifiedSqrt.correction_error_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: VerifiedSqrt/Float/Real.lean:41:0: 'VerifiedSqrt.square_root_not_half_integer' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1562/1661] Replayed VerifiedSqrt.Sqrt.Certificate32
+ℹ [1596/1678] Replayed VerifiedSqrt.Sqrt.Certificate32
 info: VerifiedSqrt/Sqrt/Certificate32.lean:46:0: 'VerifiedSqrt.Sqrt.certificate32_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1581/1661] Replayed VerifiedSqrt.Sqrt.Certificate64
+ℹ [1610/1678] Replayed VerifiedSqrt.Sqrt.Certificate64
 info: VerifiedSqrt/Sqrt/Certificate64.lean:46:0: 'VerifiedSqrt.Sqrt.certificate64_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
-ℹ [1623/1661] Replayed VerifiedSqrt.Arm.EstimateProof
-info: VerifiedSqrt/Arm/EstimateProof.lean:16:0: 'VerifiedSqrt.Arm.estimate_table_bounds' does not depend on any axioms
-✔ [1650/1661] Built VerifiedSqrt.Arm.Rounding32 (4.2s)
-✔ [1651/1661] Built VerifiedSqrt.Sqrt.Specification32 (1.7s)
-✔ [1652/1661] Built VerifiedSqrt.Sqrt.Correctness32 (1.9s)
-✔ [1653/1661] Built VerifiedSqrt.Arm.NormalizedBody32 (1.5s)
-✔ [1654/1661] Built VerifiedSqrt.Arm.Contract32 (1.6s)
-✔ [1655/1661] Built VerifiedSqrt.Arm.NormalizeReturn32 (1.2s)
-✔ [1656/1661] Built VerifiedSqrt.Arm.PositiveReturn32 (1.3s)
-✔ [1657/1661] Built VerifiedSqrt.Arm.Correctness32 (1.2s)
-✔ [1658/1661] Built VerifiedSqrt.Arm.Initial32 (1.3s)
-✔ [1659/1661] Built VerifiedSqrt.Arm.RelocatedSqrt32 (1.3s)
-✔ [1660/1661] Built VerifiedSqrt (1.2s)
-Build completed successfully (1661 jobs).
+✔ [1637/1678] Built VerifiedSqrt.Arm.Execution (2.3s)
+✔ [1638/1678] Built VerifiedSqrt.Arm.Relocation (2.3s)
+✔ [1639/1678] Built VerifiedSqrt.Arm.StepInvariants (2.2s)
+✔ [1640/1678] Built VerifiedSqrt.Arm.InstructionProof (2.4s)
+✔ [1641/1678] Built VerifiedSqrt.Arm.FloatInstructions (2.3s)
+✔ [1642/1678] Built VerifiedSqrt.Arm.LocatedExecution (503ms)
+✔ [1643/1678] Built CheckScalarState (2.9s)
+✔ [1645/1678] Built CheckMachine32 (2.8s)
+✔ [1647/1678] Built VerifiedSqrt.Arm.Estimate32 (693ms)
+✔ [1648/1678] Built VerifiedSqrt.Arm.SetupInstructions (660ms)
+✔ [1649/1678] Built VerifiedSqrt.Arm.RelocatedExecution (577ms)
+✔ [1650/1678] Built checkScalarState:exe (481ms)
+✔ [1651/1678] Built checkMachine32:exe (573ms)
+✔ [1652/1678] Built VerifiedSqrt.Arm.CorrectionBlock (1.1s)
+✔ [1653/1678] Built VerifiedSqrt.Arm.InputInstructions (667ms)
+✔ [1654/1678] Built VerifiedSqrt.Arm.SpecialReturn32 (701ms)
+✔ [1655/1678] Built VerifiedSqrt.Arm.NormalizeInstructions (3.5s)
+✔ [1656/1678] Built VerifiedSqrt.Arm.Scale32 (3.0s)
+✔ [1657/1678] Built VerifiedSqrt.Arm.CorrectionLoop (3.6s)
+✔ [1658/1678] Built VerifiedSqrt.Arm.Setup32 (3.0s)
+✔ [1659/1678] Built VerifiedSqrt.Arm.ClassifyState32 (3.6s)
+✔ [1660/1678] Built VerifiedSqrt.Arm.CorrectionFrame (559ms)
+✔ [1661/1678] Built VerifiedSqrt.Arm.Prepare32 (1.8s)
+✔ [1662/1678] Built VerifiedSqrt.Arm.Normalize32 (2.0s)
+✔ [1663/1678] Built VerifiedSqrt.Arm.Classify32 (1.7s)
+✔ [1664/1678] Built VerifiedSqrt.Arm.CorrectionTermination (1.9s)
+✔ [1665/1678] Built VerifiedSqrt.Arm.RelocateInstructions32 (3.1s)
+✔ [1666/1678] Built VerifiedSqrt.Arm.Contract32 (1.4s)
+✔ [1667/1678] Built VerifiedSqrt.Arm.Return32 (8.9s)
+✔ [1668/1678] Built VerifiedSqrt.Arm.Sqrt32Invariants (2.1s)
+✔ [1669/1678] Built VerifiedSqrt.Arm.CorrectionReturn32 (1.2s)
+✔ [1670/1678] Built VerifiedSqrt.Arm.SetupReturn32 (1.2s)
+✔ [1671/1678] Built VerifiedSqrt.Arm.NormalizedBody32 (1.2s)
+✔ [1672/1678] Built VerifiedSqrt.Arm.NormalizeReturn32 (1.2s)
+✔ [1673/1678] Built VerifiedSqrt.Arm.PositiveReturn32 (1.2s)
+✔ [1674/1678] Built VerifiedSqrt.Arm.Correctness32 (1.3s)
+✔ [1675/1678] Built VerifiedSqrt.Arm.Initial32 (1.3s)
+✔ [1676/1678] Built VerifiedSqrt.Arm.RelocatedSqrt32 (1.3s)
+✔ [1677/1678] Built VerifiedSqrt (1.2s)
+Build completed successfully (1678 jobs).
 /Users/pranavbalakri/.elan/bin/lake env lean --trust=0 Audit.lean
 'VerifiedSqrt.real_sqrt_square' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.midpoint_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -112,3 +138,10 @@ Build completed successfully (1661 jobs).
 'VerifiedSqrt.Sqrt.scaleSubnormal64_value' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.Sqrt.algorithm64_positive_rounds' depends on axioms: [propext, Classical.choice, Quot.sound]
 'VerifiedSqrt.Sqrt.algorithm64_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.wideValue_product' depends on axioms: [propext, Quot.sound]
+'VerifiedSqrt.Arm.wideLess_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.lower_comparison128_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.upper_comparison128_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.run64_compose' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.lower_square64_block' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Arm.lower_square64_block_value' depends on axioms: [propext, Quot.sound]

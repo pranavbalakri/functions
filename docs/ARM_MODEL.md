@@ -31,7 +31,7 @@ still outstanding. Native `Float` arithmetic is not used in these definitions.
 `Scalar64.lean` uses the same operations with 53-bit significands, 11-bit
 exponents, and binary64 special encodings. `Estimate.lean` holds the shared
 estimate table. Its double-precision operations passed 18,912,386 hardware
-comparisons; the instruction decoder still covers only the binary32 routine.
+comparisons. `Machine64.lean` extends the instruction decoder for binary64.
 
 The estimate loop has 512 fuel steps. For the relevant inputs, the transformed
 index is at least 257, and the pseudocode loop has already stopped by `b=1024`.
@@ -42,23 +42,26 @@ a relative-error enclosure of `1 ± 1/256` across each index bin. It uses
 and input-normalization connection to the reciprocal-square-root error bound
 remains to be proved.
 
-`Machine.lean` decodes only the forms needed by the routine:
+`Machine.lean` decodes the binary32 forms; `Machine64.lean` adds the binary64
+forms and otherwise uses the same decoder:
 
 | Group | Supported forms |
 | --- | --- |
-| FP arithmetic | Scalar S `FRSQRTE`, `FRSQRTS`, `FMUL`, all four FMA sign combinations |
-| Moves | W/S bit moves, scalar immediate `0.5`, W `MOVZ/MOVN` |
-| Integer arithmetic | W add/sub immediate, W add with LSL, W ORR with LSL, W/X CMP with LSL, UMULL |
-| Bit operations | W AND with an unrotated low contiguous mask, nonwrapping UBFX, ASR, X LSLV |
-| Branches | W CBZ/CBNZ, low-32-bit TBZ/TBNZ, B, B.EQ/B.LO/B.HI, RET |
+| FP arithmetic | Scalar S/D `FRSQRTE`, `FRSQRTS`, `FMUL`, all four FMA sign combinations |
+| Moves | W/S and X/D bit moves, scalar immediate `0.5`, W/X `MOVZ/MOVN` |
+| Integer arithmetic | W/X add/sub immediate, W/X add with LSL, W sub with LSL, W/X ORR with LSL, W/X CMP with LSL, UMULL, X MUL/UMULH |
+| Bit operations | W/X AND with an unrotated low contiguous mask, W/X nonwrapping UBFX, W ASR, X LSLV/LSRV |
+| Branches | W/X CBZ/CBNZ, TBZ/TBNZ, B, B.EQ/B.LO/B.HI, RET |
 
-W-register writes clear the upper 32 bits of X; scalar FP writes clear the upper
-96 bits of V. General register 31 is the zero register for these forms. Branch
+W-register writes clear the upper 32 bits of X; scalar S/D writes clear the upper
+96/64 bits of V. Register 31 is the zero register where the instruction specifies
+XZR/WZR. AND-immediate destinations and ADD/SUB-immediate operands that select
+SP are explicitly rejected because this fragment does not model SP. Branch
 displacements are signed byte offsets, PC arithmetic wraps modulo 2^64, and RET
 reads its register operand. Unsupported forms return `none`.
 
 `supportedControls` requires RMode=00, FZ=FIZ=AH=NEP=0, and exception enables zero.
-DN is free. FZ16/AHP and unrelated controls do not affect this S-only fragment.
+DN is free. FZ16/AHP and unrelated controls do not affect this S/D fragment.
 The RPRES estimate behavior is inactive when AH is zero. User-mode FP/SIMD access
 and instruction availability are assumed; privilege and trap controls are outside
 this fragment.
@@ -96,3 +99,10 @@ shift, add/subtract form used by the routine, CBZ/CBNZ, TBZ/TBNZ, RET, and backw
 B. It passed 33,103,488 comparisons: one million random tuples per form plus
 boundary values and every NZCV setting. RET tests choose between two real code
 addresses. The scalar and whole-routine tests cover the remaining instructions.
+
+The binary64 extension additionally passed 25,129,600 integer-form comparisons,
+4,595,820 scalar-state comparisons, and 2,232,976 complete machine executions
+against the algorithm and hardware. Integer branch tests use the same +8-byte
+displacements as their decoded words. The binary32 integer checks were rerun
+after aligning these displacements and excluding unsupported SP forms; all
+33,103,488 cases still pass. Production instruction bytes are unchanged.

@@ -21,6 +21,10 @@ make test64
 | FRSQRTS D model versus hardware | 2,059,582 | Matching result bits and FPSR |
 | FMUL D model versus hardware | 2,059,582 | Matching result bits and FPSR |
 | Each of FMADD/FMSUB/FNMSUB/FNMADD D | 2,659,582 | Matching result bits and FPSR |
+| Additional integer/branch forms | 25,129,600 | Matching registers, NZCV, and PC |
+| Scalar moves/FP with complete SIMD state | 4,595,820 | Matching destination, FPSR, and NZCV |
+| Full machine execution versus algorithm and hardware | 2,232,976 | Matching result bits and FPSR |
+| Forced correction-loop starts | 1,000,012 | Matching hardware FSQRT |
 | Assembly versus FSQRT, DN=0 | 1,007,352,509 | Zero bitwise mismatches |
 | Assembly versus FSQRT, DN=1 | 1,007,352,509 | Zero bitwise mismatches |
 
@@ -38,6 +42,15 @@ their neighbors, and 1,048,576 randomly generated rounded squares and their
 neighbors. Explicit edge cases cover signed zeros, infinities, NaNs, the largest
 double, and the normal/subnormal boundary. Comparisons are bitwise.
 
+The integer oracle covers 25 additional forms with one million random tuples
+per form, all pairs of 18 boundary values, and all 16 NZCV settings. The
+scalar-state oracle uses 200,000 random tuples per instruction per DN setting
+and all triples of 31 boundary values, with random SIMD upper bits and initial
+flags. The machine oracle uses 1.1 million random inputs per DN setting plus
+exponent and subnormal boundaries. Forced-correction tests start up to eight
+steps on either side of the answer and up to 4,096 steps away on edge cases.
+The test-only entry label adds no instructions to the production routine.
+
 Outputs are preserved in [binary64.log](binary64.log). These tests are separate
 from `algorithm64_correct`, which now proves the algorithm's result specification
 for every input and both DN settings without enumeration. The universal machine
@@ -45,3 +58,7 @@ proof remains outstanding. The full build and kernel axiom audit pass for both
 algorithm proofs and the binary32 machine proof. Audited theorems depend only on
 subsets of `propext`, `Classical.choice`, and `Quot.sound`; see
 [proof-audit.log](proof-audit.log).
+
+The audit also covers exact 128-bit multiplication/comparison lemmas and
+execution of the lower-midpoint square block. These are parts of the remaining
+machine proof, not a claim of end-to-end binary64 verification.

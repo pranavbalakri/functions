@@ -33,3 +33,15 @@ root = "CheckScalarState"
 [[lean_exe]]
 name = "checkInstructions64"
 root = "CheckInstructions64"
+
+[[lean_exe]]
+name = "checkMachine64"
+root = "CheckMachine64"
+
+[[lean_exe]]
+name = "checkInteger64"
+root = "CheckInteger64"
+
+[[lean_exe]]
+name = "checkScalarState64"
+root = "CheckScalarState64"

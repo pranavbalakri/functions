@@ -38,8 +38,22 @@ covers all 2^53 encodings in [1,4), without enumeration or an estimate-error
 assumption. The reusable format-specific encoding, spacing, and exact-rounding
 lemmas are separate from the square-root proof.
 
+`Arm/Machine64.lean` extends the decoder with D-register operations, the required
+64-bit integer forms, and MUL/UMULH. Its full-routine execution agrees with both
+the proved algorithm and hardware on 2,232,976 inputs, including FPSR. Separate
+instruction checks cover the additional forms and complete SIMD state, and
+forced-correction tests exercise seeds above and below the correct root.
+
+`WideArithmetic.lean` proves that MUL/UMULH reconstruct the exact 128-bit product
+and that comparing the high halves and then the low halves equals comparison
+of the represented integers. It also proves exact lower/upper midpoint formation
+throughout the candidate range. `CorrectionBlock64.lean` proves execution of the
+four extracted instructions at offsets 208–220 and the resulting lower-midpoint
+square. `Execution64.lean` supplies execution-composition lemmas.
+
 The kernel axiom audit reports only the existing standard axioms, with no
-admitted goals or native proof computation. The machine execution proof,
-decoder extension, and separate validation of the additional integer and move
-forms remain outstanding. The completed universal machine theorem currently
-applies to binary32; the binary64 hardware tests do not replace that obligation.
+admitted goals or native proof computation. The remaining machine proof must
+establish correction-loop control flow and termination and compose it with
+input preparation, floating-point evaluation, encoding, return, and relocation.
+The completed universal machine theorem currently applies to binary32; the
+binary64 hardware tests do not replace that obligation.

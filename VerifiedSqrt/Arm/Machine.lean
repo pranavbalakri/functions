@@ -72,7 +72,8 @@ public def step (word : UInt32) (s : Machine) : Option Machine :=
     let x := s.readS n ^^^ if nn then 0x80000000 else 0
     let z := s.readS a ^^^ if na then 0x80000000 else 0
     some (next.writeFP d (mulAdd32 dn x (s.readS m) z))
-  else if word &&& 0xffc00000 == 0x12000000 && field word 16 6 == 0 && field word 10 6 < 31 then
+  else if word &&& 0xffc00000 == 0x12000000 && field word 16 6 == 0 &&
+      field word 10 6 < 31 && d != 31 then
     let mask := UInt32.ofNat (2 ^ (field word 10 6 + 1) - 1)
     some (next.writeW d (s.readW n &&& mask))
   else if (word &&& 0xff800000 == 0x52800000 || word &&& 0xff800000 == 0x12800000) &&
@@ -90,7 +91,8 @@ public def step (word : UInt32) (s : Machine) : Option Machine :=
     let signed : Int := if sign32 x then (x.toNat : Int) - 2 ^ 32 else x.toNat
     let value := signed / (2 : Int) ^ field word 16 6
     some (next.writeW d (UInt32.ofNat (value % 2 ^ 32).toNat))
-  else if word &&& 0xff800000 == 0x11000000 || word &&& 0xff800000 == 0x51000000 then
+  else if (word &&& 0xff800000 == 0x11000000 || word &&& 0xff800000 == 0x51000000) &&
+      n != 31 && d != 31 then
     let imm := UInt32.ofNat (field word 10 12 * 2 ^ (12 * field word 22 1))
     let value := if word &&& 0x40000000 == 0 then s.readW n + imm else s.readW n - imm
     some (next.writeW d value)
