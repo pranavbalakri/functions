@@ -1,6 +1,7 @@
 module
 
 public import VerifiedSqrt.Arm.Spacing32
+public import VerifiedSqrt.Float.Distance
 
 @[expose] public section
 
@@ -25,10 +26,6 @@ theorem roundsToNearestEven32_of_strict (r : ℝ) (y : UInt32)
     · exact (h z hz).le
   · intro hz he
     exact False.elim ((ne_of_lt (h z hz)) he)
-
-theorem scaled_distance (a b c : ℝ) (hc : 0 ≤ c) :
-    |a * c - b * c| = |a - b| * c := by
-  rw [← sub_mul, abs_mul, abs_of_nonneg hc]
 
 theorem encodeSignificand32_strict_nearest (e q : Nat) (r : ℝ)
     (elo : 2 ≤ e) (ehi : e ≤ 253) (qlo : 2 ^ 23 ≤ q) (qhi : q ≤ 2 ^ 24)

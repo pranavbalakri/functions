@@ -35,10 +35,13 @@ Updated 2026-10-30 (America/New_York).
 - Binary64 now has an 81-instruction implementation using three Newton steps,
   FMA correction, and 128-bit integer midpoint comparisons. It passed
   2,014,705,018 bitwise FSQRT comparisons, including two billion random inputs.
-  Its scalar FP model passed 18,912,386 result/FPSR comparisons. No binary64
-  algorithm or machine theorem is claimed yet. [Details](docs/BINARY64.md).
+  Its scalar FP model passed 18,912,386 result/FPSR comparisons.
+- `algorithm64_correct` proves `SqrtSpec64` for every binary64 input and both DN
+  settings, including exact subnormal scaling and all special values. It reuses
+  the integer-root certificate and correction lemmas. Kernel axiom audits pass;
+  the binary64 machine proof remains open. [Details](docs/BINARY64.md).
 
-Remaining: binary64 algorithm proof, decoder extension, extra instruction checks,
+Remaining: binary64 decoder extension, extra instruction checks,
 and machine proof. General overflow/underflow rounding lemmas
 are future reusable work; binary32 needs only the exact scaling cases proved.
 

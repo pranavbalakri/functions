@@ -84,3 +84,9 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.sqrt32_step_relocate
 #print axioms VerifiedSqrt.Arm.runAt_relocate
 #print axioms VerifiedSqrt.Arm.sqrt32_relocated_correct
+#print axioms VerifiedSqrt.Sqrt.coreCorrect64
+#print axioms VerifiedSqrt.Sqrt.normalizedCore64_correct
+#print axioms VerifiedSqrt.Arm.round64_exact
+#print axioms VerifiedSqrt.Sqrt.scaleSubnormal64_value
+#print axioms VerifiedSqrt.Sqrt.algorithm64_positive_rounds
+#print axioms VerifiedSqrt.Sqrt.algorithm64_correct

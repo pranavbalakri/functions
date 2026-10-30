@@ -38,7 +38,10 @@ their neighbors, and 1,048,576 randomly generated rounded squares and their
 neighbors. Explicit edge cases cover signed zeros, infinities, NaNs, the largest
 double, and the normal/subnormal boundary. Comparisons are bitwise.
 
-Outputs are preserved in [binary64.log](binary64.log). These are tests, not a
-binary64 proof. The universal algorithm and machine proofs remain outstanding.
-The binary32 proof and kernel axiom audit still pass after sharing the unchanged
-reciprocal-square-root table between the precisions.
+Outputs are preserved in [binary64.log](binary64.log). These tests are separate
+from `algorithm64_correct`, which now proves the algorithm's result specification
+for every input and both DN settings without enumeration. The universal machine
+proof remains outstanding. The full build and kernel axiom audit pass for both
+algorithm proofs and the binary32 machine proof. Audited theorems depend only on
+subsets of `propext`, `Classical.choice`, and `Quot.sound`; see
+[proof-audit.log](proof-audit.log).

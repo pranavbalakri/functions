@@ -27,8 +27,19 @@ subnormals, exponent boundaries, and neighbors of exact and rounded squares.
 The scalar model passed 18,912,386 instruction comparisons. See
 [the validation record](../validation/binary64.md).
 
-These tests do not constitute a proof. The binary64 algorithm proof and machine
-execution proof are still outstanding, as are the decoder extension and separate
-validation of its additional integer and move forms. General dyadic rounding,
-integer-root correction, and relocation lemmas from binary32 are available for
-reuse. The completed universal machine theorem currently applies to binary32.
+`Sqrt/Correctness64.lean` proves `algorithm64_correct` for every input encoding
+and both DN settings. Its specification, `SqrtSpec64`, requires nearest-even
+rounding of the true square root for positive finite inputs, preserves signed
+zeros and positive infinity, and specifies the exact negative-input and NaN
+encodings. The proof uses the general integer-root certificate and correction
+lemmas, proves exact subnormal scaling by 2^106, and proves that encoding and
+rescaling preserve the required nearest result. The normalized core theorem
+covers all 2^53 encodings in [1,4), without enumeration or an estimate-error
+assumption. The reusable format-specific encoding, spacing, and exact-rounding
+lemmas are separate from the square-root proof.
+
+The kernel axiom audit reports only the existing standard axioms, with no
+admitted goals or native proof computation. The machine execution proof,
+decoder extension, and separate validation of the additional integer and move
+forms remain outstanding. The completed universal machine theorem currently
+applies to binary32; the binary64 hardware tests do not replace that obligation.
