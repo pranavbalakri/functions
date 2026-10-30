@@ -22,8 +22,9 @@ specification.
 `certificate32_nearest` and `certificate32_unique` connect the existing strict
 midpoint certificates to the unique nearest-even integer significand of the
 scaled square root. They retain the explicit certificate hypothesis.
-`CoreCorrect32`, which would discharge that hypothesis for every normalized
-input, remains unproved. These are reusable lemmas and intermediate results,
+`coreCorrect32` now discharges that hypothesis for every normalized input
+using the exact correction proved in `Sqrt/IntegerCertificate.lean` and
+`Sqrt/Correction32.lean`. These are reusable lemmas and intermediate results,
 not a replacement for the requested end-to-end theorem.
 
 `Arm/Scalar32Real.lean` connects the model's bit fields and finite-value decoder
@@ -33,7 +34,7 @@ for inputs in `[1,4)` and outputs in `[1,2]`. Given a valid certificate,
 every different finite binary32 value, not just the integer significand grid.
 The proof handles candidates below 1 and above 2 separately, so it includes the
 change in spacing at those boundaries. It excludes a rounding tie under the
-certificate hypothesis; the universal certificate proof remains necessary.
+certificate hypothesis; the universal certificate proof is supplied by `coreCorrect32`.
 
 Run `make proof` to build these proofs and run the axiom audit. They use Lean's
 standard logical axioms `propext`, `Classical.choice`, and `Quot.sound`; they add

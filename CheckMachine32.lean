@@ -21,7 +21,7 @@ def main (args : List String) : IO Unit := do
       let x := word data (j + 4)
       let expected := word data (j + 8)
       let flags := word data (j + 12)
-      let some state := run sqrt32Code 4096 43 (initial32 dn x)
+      let some state := run sqrt32Code 4096 sqrt32Fuel (initial32 dn x)
         | throw (IO.userError s!"machine failed: row={count} input={x}")
       let got := state.readS 0
       let algorithm := algorithm32 dn x

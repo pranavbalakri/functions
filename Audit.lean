@@ -23,3 +23,6 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Sqrt.certificate32_result_error
 #print axioms VerifiedSqrt.Sqrt.certificate32_result_nearest_float
 #print axioms VerifiedSqrt.Sqrt.certificate32_result_unique_float
+#print axioms VerifiedSqrt.Sqrt.correctIntegerRoot_certificate
+#print axioms VerifiedSqrt.Sqrt.coreCorrect32
+#print axioms VerifiedSqrt.Sqrt.normalizedCore32_correct

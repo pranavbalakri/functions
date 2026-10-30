@@ -2,39 +2,31 @@
 
 Updated 2026-10-29 (America/New_York).
 
-- README presents the intended completed project. Actual proof status is recorded
-  here; the README's wording does not establish completion.
+- README describes the intended completed project. Actual status is recorded here.
+- The user approved an exact integer midpoint correction after the Markstein/FMA
+  steps. Binary32 now uses 67 AArch64 instructions, no FSQRT, and no double
+  floating-point arithmetic. Subnormals use 2^48 scaling; the core uses [1,4).
+- Proved the correction loop terminates within its supplied distance bound and
+  returns the unique nearest integer square root. Its binary32 instance proves
+  `coreCorrect32` for all 2^24 normalized inputs, without exhaustive proof
+  computation or assumptions about the initial estimate's accuracy.
+- `normalizedCore32_correct` proves strict distance minimization against every
+  different finite binary32 value. Normalization/rescaling and special cases
+  still need proofs before this becomes an all-input algorithm theorem.
+- Reusable proofs cover exact dyadic arithmetic, nearest-even coefficient
+  rounding, uniqueness, estimate-table bounds, and binary32 decoding.
+- The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
+  machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
+  integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
+  The unchanged FP model previously passed 17,077,262 comparisons.
+- No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
+  [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-- Binary32 implementation: 43 AArch64 instructions, no FSQRT, no double-precision
-  arithmetic. Subnormals use 2^48 scaling; the core operates in [1,4).
-- Both full 2^32 hardware sweeps passed, one each for DN=0 and DN=1.
-- Added the exact dyadic FP model, a decoder/executor for the used instruction
-  forms, extracted machine bytes, hardware oracles, and reproducible Make targets.
-- Retrieved and pinned the original Arm 2023-03 pseudocode archive.
-- Kernel proofs cover estimate-table bounds, the correction identity, midpoint
-  certificate soundness, and absence of half-integer square-root ties.
-- Proved exact real semantics of dyadic addition, multiplication, and halving;
-  nearest-even rounding for every integer right shift and every signed dyadic
-  at a chosen exponent; rounding uniqueness; and the unique rounded significand
-  implied by a square-root certificate. [Rounding proofs](docs/ROUNDING.md).
-- Connected normalized binary32 input/output encodings to real values. A valid
-  certificate now proves that the actual core output is strictly closer to the
-  real square root than every different finite binary32 value, including values
-  outside [1,2]. This still requires the unproved certificate hypothesis.
-- No new axioms, admitted proofs, or native_decide. Axiom audits pass.
-- Final `make test` passed: 17,077,262 instruction comparisons, all 16,777,216
-  normalized-core certificates, 2,204,188 machine comparisons, and both full
-  binary32 sweeps. [Validation record](validation/binary32.md).
+Remaining: prove input normalization, rescaling, and special cases; prove machine
+execution and termination for arbitrary permitted caller states and code
+placement; finish the reusable binary32 rounding/encoding bridge. Additional
+single-step tests for moves and arbitrary SIMD upper lanes remain.
 
-Blocking proof work: connect the proved dyadic rounding rule to binary32 encoding,
-exponent selection, overflow, and underflow;
-prove CoreCorrect32 universally, prove scaling/special cases, and prove symbolic
-machine-to-algorithm equality for arbitrary permitted caller states. A direct
-kernel exhaustive proof hit the recursion limit. A balanced checker proved 64
-inputs, but a 4,096-input trial exceeded 45 seconds. Passing executable checks
-are not proofs. [Details](docs/BINARY32.md).
-
-Phase 1's binary32 implementation/testing milestone is ready; the required
-binary32 end-to-end proof is incomplete. Do not begin binary64 until it is proved.
-Separate single-step integer/move/branch and SIMD upper-lane conformance tests also
-remain. Ask before any native proof computation.
+The binary32 end-to-end theorem is incomplete. Do not start binary64 until it is
+proved. Ask before native proof computation. Only the README Layout section may
+be edited.

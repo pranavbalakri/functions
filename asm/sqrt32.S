@@ -40,7 +40,32 @@ Lnormalize:
     fmul s3, s1, s5
     fmsub s4, s2, s2, s0
     fmadd s0, s4, s3, s2
+    ubfx w2, w0, #23, #8
+    sub w2, w2, #102
+    and w3, w0, #0x7fffff
+    mov w1, #0x800000
+    add w3, w3, w1
+    lsl x3, x3, x2
     fmov w0, s0
+    and w0, w0, #0x7fffff
+    add w0, w0, w1
+Lcorrect:
+#ifdef SQRT32_TESTING
+.globl _verified_sqrtf_correct_entry
+_verified_sqrtf_correct_entry:
+#endif
+    add w2, w0, w0
+    sub w2, w2, #1
+    umull x2, w2, w2
+    cmp x3, x2
+    b.lo Ldown
+    add w2, w0, w0
+    add w2, w2, #1
+    umull x2, w2, w2
+    cmp x3, x2
+    b.hi Lup
+    mov w1, #0x3f000000
+    add w0, w0, w1
     add w0, w0, w4, lsl #23
     fmov s0, w0
 Lreturn:
@@ -48,3 +73,9 @@ Lreturn:
 Lspecial:
     frsqrte s0, s0
     ret
+Ldown:
+    sub w0, w0, #1
+    b Lcorrect
+Lup:
+    add w0, w0, #1
+    b Lcorrect

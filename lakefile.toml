@@ -21,3 +21,7 @@ root = "CheckCore32"
 [[lean_exe]]
 name = "checkMachine32"
 root = "CheckMachine32"
+
+[[lean_exe]]
+name = "checkInteger"
+root = "CheckInteger"

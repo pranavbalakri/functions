@@ -16,3 +16,14 @@ routine_rows=2204188 random_per_DN=1100000 seed=bb67ae8584caa73b
 PASS machine_rows=2204188 algorithm_hardware_and_FPSR=true
 checked=4294967296 begin=0 end=4294967296 DN=0 failures=0 seconds=10.130
 checked=4294967296 begin=0 end=4294967296 DN=1 failures=0 seconds=8.223
+
+Exact correction milestone, 2026-10-29:
+'VerifiedSqrt.Sqrt.coreCorrect32' depends on axioms: [propext, Classical.choice, Quot.sound]
+'VerifiedSqrt.Sqrt.normalizedCore32_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+instructions=67 bytes=268 sha256=e0c47d6d1eec8645b72741a183fc7d744220df5d4049786e2828a76982d5ba00 fsqrt=false
+PASS integer_rows=8025088 per_op=#[1003136, 1003136, 1003136, 1003136, 1003136, 1003136, 1003136, 1003136] registers_flags_and_PC=true
+forced_correction_cases=1000012 failures=0 seed=a54ff53a5f1d36f1
+PASS normalized_inputs=16777216 exact_integer_midpoint_certificates=true
+PASS machine_rows=2204188 algorithm_hardware_and_FPSR=true
+checked=4294967296 begin=0 end=4294967296 DN=0 failures=0 seconds=9.023
+checked=4294967296 begin=0 end=4294967296 DN=1 failures=0 seconds=8.275

@@ -6,7 +6,7 @@ public import VerifiedSqrt.Float.Rounding
 
 namespace VerifiedSqrt.Sqrt
 
-public def CoreCorrect32 : Prop :=
+@[expose] public def CoreCorrect32 : Prop :=
   ∀ i : Fin (2 ^ 24), coreCertificate32 (UInt32.ofNat (0x3f800000 + i.val)) = true
 
 public theorem significand32_positive (y : UInt32) : 1 ≤ normalizedSignificand32 y := by

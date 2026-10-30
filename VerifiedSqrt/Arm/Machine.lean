@@ -33,6 +33,9 @@ public def Machine.readW (s : Machine) (n : Nat) : UInt32 := (s.readX n).toUInt3
 public def Machine.writeW (s : Machine) (n : Nat) (w : UInt32) : Machine :=
   if n == 31 then s else { s with x := s.x.set! n w.toUInt64 }
 
+public def Machine.writeX (s : Machine) (n : Nat) (w : UInt64) : Machine :=
+  if n == 31 then s else { s with x := s.x.set! n w }
+
 public def Machine.readS (s : Machine) (n : Nat) : UInt32 := UInt32.ofNat s.v[n]!.toNat
 
 public def Machine.writeS (s : Machine) (n : Nat) (w : UInt32) : Machine :=
@@ -105,6 +108,22 @@ public def step (word : UInt32) (s : Machine) : Option Machine :=
       zero := result == 0
       carry := lhs ≥ rhs
       overflow := (sign32 lhs != sign32 rhs) && (sign32 result != sign32 lhs) }
+  else if word &&& 0xffe0fc00 == 0x9ac02000 then
+    some (next.writeX d (s.readX n <<< (s.readX m &&& 63)))
+  else if word &&& 0xffe0fc00 == 0x9ba07c00 then
+    some (next.writeX d ((s.readW n).toUInt64 * (s.readW m).toUInt64))
+  else if word &&& 0xffe0001f == 0xeb00001f then
+    let lhs := s.readX n
+    let rhs := s.readX m <<< UInt64.ofNat (field word 10 6)
+    let result := lhs - rhs
+    let sign (w : UInt64) := w >>> 63 != 0
+    some { next with
+      negative := sign result
+      zero := result == 0
+      carry := lhs ≥ rhs
+      overflow := (sign lhs != sign rhs) && (sign result != sign lhs) }
+  else if word &&& 0xfc000000 == 0x14000000 then
+    some { next with pc := branchPC s.pc (4 * signedField word 0 26) }
   else if word &&& 0xfe000000 == 0x34000000 then
     let taken := (s.readW d != 0) == (field word 24 1 != 0)
     some { next with pc := if taken then branchPC s.pc (4 * signedField word 5 19) else next.pc }
@@ -115,8 +134,8 @@ public def step (word : UInt32) (s : Machine) : Option Machine :=
     some { next with pc := if taken then branchPC s.pc (4 * signedField word 5 14) else next.pc }
   else if word &&& 0xff000010 == 0x54000000 then
     let cond := field word 0 4
-    if cond != 0 && cond != 8 then none else
-    let taken := if cond == 0 then s.zero else s.carry && !s.zero
+    if cond != 0 && cond != 3 && cond != 8 then none else
+    let taken := if cond == 0 then s.zero else if cond == 3 then !s.carry else s.carry && !s.zero
     some { next with pc := if taken then branchPC s.pc (4 * signedField word 5 19) else next.pc }
   else if word &&& 0xfffffc1f == 0xd65f0000 then some { s with pc := s.readX n }
   else none
@@ -136,7 +155,9 @@ public def initial32 (dn : Bool) (x : UInt32) : Machine :=
     x := s.x.set! 30 4096
     fpcr := if dn then 0x02000000 else 0 }
 
+public def sqrt32Fuel : Nat := 2 ^ 28
+
 public def machine32 (dn : Bool) (x : UInt32) : Option UInt32 :=
-  (run sqrt32Code 4096 43 (initial32 dn x)).map (fun s => s.readS 0)
+  (run sqrt32Code 4096 sqrt32Fuel (initial32 dn x)).map (fun s => s.readS 0)
 
 end VerifiedSqrt.Arm
