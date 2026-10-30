@@ -72,6 +72,13 @@ closer to the true square root than every different finite binary32 value.
 There are no ties in this domain. The theorem has no certificate hypothesis.
 The reusable rounding lemmas are described in [ROUNDING.md](ROUNDING.md).
 
+`Normalization32.lean` proves the exact power-of-two decomposition of every
+positive normal input and the value of the encoded output after rescaling.
+`Correctness32.lean` connects these facts to `algorithm32`:
+`algorithm32_normal_strict_nearest` proves strict distance minimization for every
+positive normal binary32 input. The reusable Arm encoding, spacing, and rounding
+lemmas cover exponent boundaries as well as the interior of each binade.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -79,8 +86,8 @@ uses mathematical invariants rather than enumerating inputs.
 
 ## Remaining work
 
-1. Prove normalization, rescaling, and every special input case against the full
-   IEEE/Arm result specification.
+1. Prove exact subnormal scaling and every special input case against the full
+   IEEE/Arm result specification, then combine them with the normal-input proof.
 2. Prove execution of the extracted words equals the algorithm for every permitted
    caller state, including correction-loop termination, frame conditions, and
    code placement. The current execution fuel is a test-fixture bound, not a
