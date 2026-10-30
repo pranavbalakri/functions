@@ -10,10 +10,10 @@ Updated 2026-10-30 (America/New_York).
   returns the unique nearest integer square root. Its binary32 instance proves
   `coreCorrect32` for all 2^24 normalized inputs, without exhaustive proof
   computation or assumptions about the initial estimate's accuracy.
-- `algorithm32_normal_strict_nearest` proves strict distance minimization for
-  every positive normal binary32 input, including normalization and rescaling.
-  Reusable encoding and spacing lemmas handle power-of-two boundaries.
-  Subnormal scaling and special cases still need proofs.
+- `algorithm32_correct` proves the complete binary32 algorithm satisfies
+  `SqrtSpec32` for every input and both DN settings: nearest-even square root for
+  positive finite values, preserved signed zeros/infinity, and exact NaN bits.
+  The proof includes exact 2^48 subnormal scaling and exponent rescaling.
 - Reusable proofs cover exact dyadic arithmetic, nearest-even coefficient
   rounding, uniqueness, estimate-table bounds, and binary32 decoding.
 - Machine lemmas now cover register writes/frame properties, symbolic decoding
@@ -27,8 +27,7 @@ Updated 2026-10-30 (America/New_York).
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: prove subnormal scaling and special cases; prove machine
-execution and termination for arbitrary permitted caller states and code
+Remaining: prove machine execution and termination for arbitrary permitted caller states and code
 placement; finish the reusable binary32 rounding/encoding bridge. Additional
 single-step tests for moves and arbitrary SIMD upper lanes remain.
 

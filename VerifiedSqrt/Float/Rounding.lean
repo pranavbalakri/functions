@@ -170,4 +170,22 @@ theorem roundShiftEven_inexact (n k : Nat) :
     simp [roundShiftEven, Nat.mod_one]
   · simp [roundShiftEven, hk]
 
+theorem roundShiftEven_exact_multiple (q k : Nat) :
+    roundShiftEven (q * 2 ^ k) k = (q, false) := by
+  have hp : 0 < 2 ^ k := by positivity
+  by_cases hk : k = 0
+  · subst k
+    simp [roundShiftEven]
+  · simp [roundShiftEven, hk, Nat.mul_div_cancel _ hp,
+      show ¬0 = 2 ^ k by omega]
+
+theorem log2_mul_two_pow (n k : Nat) (hn : 0 < n) :
+    (n * 2 ^ k).log2 = n.log2 + k := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+    rw [pow_succ, show n * (2 ^ k * 2) = 2 * (n * 2 ^ k) by ring,
+      Nat.log2_two_mul (by positivity), ih]
+    omega
+
 end VerifiedSqrt

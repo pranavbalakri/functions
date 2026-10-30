@@ -32,6 +32,12 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Sqrt.normalizedInput32_root
 #print axioms VerifiedSqrt.Sqrt.rescale32_value
 #print axioms VerifiedSqrt.Sqrt.algorithm32_normal_strict_nearest
+#print axioms VerifiedSqrt.roundShiftEven_exact_multiple
+#print axioms VerifiedSqrt.Arm.round32_exact
+#print axioms VerifiedSqrt.Arm.round32_subnormal_product
+#print axioms VerifiedSqrt.Sqrt.scaleSubnormal32_value
+#print axioms VerifiedSqrt.Sqrt.algorithm32_positive_rounds
+#print axioms VerifiedSqrt.Sqrt.algorithm32_correct
 #print axioms VerifiedSqrt.Arm.Machine.readX_writeW_same
 #print axioms VerifiedSqrt.Arm.Machine.readS_writeS_same
 #print axioms VerifiedSqrt.Arm.step_double_candidate

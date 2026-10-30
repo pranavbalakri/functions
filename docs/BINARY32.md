@@ -16,8 +16,8 @@ steps. This gives a short rounding proof independent of the estimate's accuracy.
 
 Zero returns unchanged, including negative zero. Positive infinity returns
 unchanged. Other negative values and NaNs use `FRSQRTE`'s special-value result.
-These paths matched `FSQRT` exhaustively under both DN settings; their formal
-all-input proofs remain open.
+These paths matched `FSQRT` exhaustively under both DN settings and are covered
+by the algorithm proof.
 
 For positive finite `x`, multiply a subnormal by 2^48. Write the resulting
 unbiased exponent as `2*k + parity`, with parity zero or one, and construct `z`
@@ -79,6 +79,21 @@ positive normal input and the value of the encoded output after rescaling.
 positive normal binary32 input. The reusable Arm encoding, spacing, and rounding
 lemmas cover exponent boundaries as well as the interior of each binade.
 
+`Subnormal32.lean` proves that the modeled multiplication by 2^48 is exact,
+produces a normal value, and permits exact recovery of the square root by
+rescaling. `Special32.lean` proves the signed-zero, infinity, negative-input,
+and NaN results. `algorithm32_correct` combines these results for all 2^32 input
+encodings and both DN settings, without enumeration.
+
+Its independent specification, `SqrtSpec32`, preserves both zeros and positive
+infinity, returns the default quiet NaN for negative nonzero non-NaN inputs, and
+quiets input NaNs while preserving their bits unless DN requests the default
+NaN. For positive finite inputs it requires a positive finite result nearest
+to the mathematical square root among all finite binary32 values, choosing an
+even significand in any tie. The proof establishes strict distance minimization,
+so a square-root tie cannot occur. This is an algorithm theorem; the remaining
+machine proof must connect it to execution of the assembled instructions.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -86,13 +101,11 @@ uses mathematical invariants rather than enumerating inputs.
 
 ## Remaining work
 
-1. Prove exact subnormal scaling and every special input case against the full
-   IEEE/Arm result specification, then combine them with the normal-input proof.
-2. Prove execution of the extracted words equals the algorithm for every permitted
+1. Prove execution of the extracted words equals the algorithm for every permitted
    caller state, including correction-loop termination, frame conditions, and
    code placement. The current execution fuel is a test-fixture bound, not a
    proved machine-level bound.
-3. Complete the reusable bridge from dyadic nearest-even rounding to the binary32
+2. Complete the reusable bridge from dyadic nearest-even rounding to the binary32
    encoder, exponent selection, and overflow/underflow behavior.
 
 These obligations block the requested binary32 end-to-end theorem and the

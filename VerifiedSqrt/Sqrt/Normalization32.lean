@@ -104,4 +104,13 @@ theorem rescale32_value (q : UInt32) (k : Int)
   have he : ((k + 127).toNat : Int) - 150 = k - 23 := by omega
   rw [he]
 
+theorem rescale32_bounds (q : UInt32) (k : Int)
+    (qlo : 0x3f800000 ≤ q.toNat) (qhi : q.toNat ≤ 0x40000000)
+    (klo : -125 ≤ k) (khi : k ≤ 126) :
+    0 < (rescale32 q k).toNat ∧ (rescale32 q k).toNat < 0x7f800000 := by
+  have hb := normalizedSignificand32_bounds q
+  rw [rescale32_encode q k qlo qhi klo khi,
+    encodeSignificand32_bits _ _ (by omega) hb.2]
+  omega
+
 end VerifiedSqrt.Sqrt
