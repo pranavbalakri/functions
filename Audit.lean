@@ -97,3 +97,10 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.run64_compose
 #print axioms VerifiedSqrt.Arm.lower_square64_block
 #print axioms VerifiedSqrt.Arm.lower_square64_block_value
+#print axioms VerifiedSqrt.Arm.Steps64.run
+#print axioms VerifiedSqrt.Arm.lower_compare64_trace
+#print axioms VerifiedSqrt.Arm.upper_compare64_trace
+#print axioms VerifiedSqrt.Arm.normalized_correction_loop64_correct
+#print axioms VerifiedSqrt.Arm.return64_correct
+#print axioms VerifiedSqrt.Arm.setup64_radicand_value
+#print axioms VerifiedSqrt.Arm.estimate64_trace

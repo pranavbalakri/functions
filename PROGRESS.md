@@ -43,12 +43,13 @@ Updated 2026-10-30 (America/New_York).
 - The binary64 decoder passed 2,232,976 whole-routine comparisons against the
   algorithm and hardware, including FPSR, plus 25,129,600 new integer-form and
   4,595,820 scalar-state checks. A further 1,000,012 forced-correction tests pass.
-  Lean proves the 128-bit products/comparisons and execution of the four
-  lower-midpoint square instructions. The full build and axiom audit pass.
+  Lean now proves the entire midpoint-correction loop, including both high/low
+  word comparisons, branch directions, termination, and the exact result.
+  Separate proofs cover the floating-point pipeline, 128-bit radicand setup,
+  and final encoding/rescaling. These modules build without admitted goals.
 
-Remaining: binary64 machine proof for the correction-loop control flow and
-termination, input preparation, floating-point pipeline, encoding/return, and
-relocation. General overflow/underflow rounding lemmas
+Remaining: compose the binary64 blocks with input classification and
+subnormal preparation, prove relocation, and audit the final machine theorem. General overflow/underflow rounding lemmas
 are future reusable work; binary32 needs only the exact scaling cases proved.
 
 Ask before native proof computation. Only the README Layout section may be edited.

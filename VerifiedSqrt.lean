@@ -24,4 +24,8 @@ public import VerifiedSqrt.Arm.NormalizeReturn32
 public import VerifiedSqrt.Arm.Initial32
 public import VerifiedSqrt.Arm.RelocatedSqrt32
 public import VerifiedSqrt.Arm.CorrectionBlock64
+public import VerifiedSqrt.Arm.CorrectionTermination64
+public import VerifiedSqrt.Arm.Return64
+public import VerifiedSqrt.Arm.Setup64
+public import VerifiedSqrt.Arm.Estimate64
 public import VerifiedSqrt.Arm.EstimateProof
