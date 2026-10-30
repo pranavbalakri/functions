@@ -118,6 +118,13 @@ square root times the saved power of two, for scale exponents from -125 to 126.
 The instruction bound is `12*2^23+36`. The block preserves GPRs X4–X30, SIMD
 registers V6–V31, and FPCR; FPSR may accumulate floating-point exception flags.
 
+`NormalizeReturn32.lean` extends this execution proof back to byte offset 68.
+The eight normalization instructions construct exactly `normalizedInput32` and
+add `rootExponent32` to the saved scale exponent. Reusable signed-word lemmas
+prove the arithmetic right shift and parity extraction for negative exponents.
+The composed bound is `12*2^23+44`; GPRs X5–X30, SIMD registers V6–V31, and FPCR
+are preserved.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -126,8 +133,8 @@ uses mathematical invariants rather than enumerating inputs.
 ## Remaining work
 
 1. Prove execution of the extracted words equals the algorithm for every permitted
-   caller state, including input handling, normalization, and code placement.
-   The normalized-body execution bound is proved;
+   caller state, including input classification, subnormal scaling, and code
+   placement. The normalization/body execution bound is proved;
    the whole-program execution bound is still a test-fixture bound.
 This machine obligation blocks the requested binary32 end-to-end theorem and the
 transition to binary64. Generalizing the reusable rounding/encoding bridge to

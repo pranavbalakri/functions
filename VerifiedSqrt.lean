@@ -17,4 +17,5 @@ public import VerifiedSqrt.Arm.CorrectionBlock
 public import VerifiedSqrt.Arm.CorrectionTermination
 public import VerifiedSqrt.Arm.CorrectionReturn32
 public import VerifiedSqrt.Arm.NormalizedBody32
+public import VerifiedSqrt.Arm.NormalizeReturn32
 public import VerifiedSqrt.Arm.EstimateProof

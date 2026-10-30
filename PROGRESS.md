@@ -28,6 +28,9 @@ Updated 2026-10-30 (America/New_York).
   encoding. `normalized_body_rounds` proves nearest-even rounding for the scaled
   normalized input. It permits arbitrary SIMD contents and needs no estimate
   accuracy assumption. GPRs X4–X30, SIMD registers V6–V31, and FPCR are preserved.
+- `normalization_return_correct` extends that result back to byte offset 68.
+  The signed arithmetic shift, parity mask, exponent packing, and scalar move
+  produce exactly the algorithm's normalized input and saved scale exponent.
 - The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
@@ -37,8 +40,8 @@ Updated 2026-10-30 (America/New_York).
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: connect input handling and normalization to the proved normalized
-body; cover arbitrary code placement.
+Remaining: connect input classification and subnormal scaling (offsets 0–64)
+to the proved normalization/body; cover arbitrary code placement.
 General overflow/underflow rounding lemmas are future reusable work; the corrected
 algorithm does not need them.
 

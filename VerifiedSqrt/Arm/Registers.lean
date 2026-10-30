@@ -89,6 +89,39 @@ def Machine.advanceW (s : Machine) (d : Nat) (w : UInt32) : Machine :=
 def Machine.advanceX (s : Machine) (d : Nat) (w : UInt64) : Machine :=
   ({s with pc := s.pc + 4} : Machine).writeX d w
 
+def Machine.advanceS (s : Machine) (d : Nat) (w : UInt32) : Machine :=
+  ({s with pc := s.pc + 4} : Machine).writeS d w
+
+theorem Machine.advanceS_pc (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceS d w).pc = s.pc + 4 := rfl
+
+theorem Machine.advanceS_registers (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceS d w).x = s.x := rfl
+
+theorem Machine.advanceS_fpcr (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceS d w).fpcr = s.fpcr := rfl
+
+theorem Machine.advanceS_fpsr (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceS d w).fpsr = s.fpsr := rfl
+
+theorem Machine.advanceS_vector_size (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceS d w).v.size = s.v.size := by
+  simp [Machine.advanceS, Machine.writeS]
+
+theorem Machine.readW_advanceS (s : Machine) (d r : Nat) (w : UInt32) :
+    (s.advanceS d w).readW r = s.readW r := rfl
+
+theorem Machine.readX_advanceS (s : Machine) (d r : Nat) (w : UInt32) :
+    (s.advanceS d w).readX r = s.readX r := rfl
+
+theorem Machine.readS_advanceS_same (s : Machine) (d : Nat) (hd : d < 32)
+    (hs : s.v.size = 32) (w : UInt32) : (s.advanceS d w).readS d = w :=
+  Machine.readS_writeS_same ({s with pc := s.pc + 4} : Machine) d hd hs w
+
+theorem Machine.vector_advanceS_ne (s : Machine) (d r : Nat) (hne : d ≠ r) (w : UInt32) :
+    (s.advanceS d w).v[r]! = s.v[r]! :=
+  Machine.vector_writeS_ne _ d r hne w
+
 theorem Machine.advanceW_pc (s : Machine) (d : Nat) (w : UInt32) :
     (s.advanceW d w).pc = s.pc + 4 := by
   by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]

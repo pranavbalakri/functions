@@ -62,3 +62,9 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.estimate_run
 #print axioms VerifiedSqrt.Arm.normalized_body_correct
 #print axioms VerifiedSqrt.Arm.normalized_body_rounds
+#print axioms VerifiedSqrt.Arm.signedWord32_ofInt
+#print axioms VerifiedSqrt.Arm.word32_ofInt_parity
+#print axioms VerifiedSqrt.Arm.word32_normalized_input
+#print axioms VerifiedSqrt.Arm.normalize_word
+#print axioms VerifiedSqrt.Arm.normalize_exponent
+#print axioms VerifiedSqrt.Arm.normalization_return_correct
