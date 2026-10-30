@@ -109,6 +109,15 @@ after returning through the caller's link register. The proof includes the
 32-bit modular arithmetic used to add a negative exponent. All GPRs except
 X0/X1/X2, all SIMD registers except V0, FPCR, and FPSR are preserved by this block.
 
+`NormalizedBody32.lean` proves execution from byte offset 100 through return.
+It composes the twelve floating-point instructions with the nine integer setup
+instructions and the correction/return block. The setup proof establishes the
+exact radicand and bounds the initial candidate for any floating-point output.
+`normalized_body_rounds` proves nearest-even rounding of the normalized input's
+square root times the saved power of two, for scale exponents from -125 to 126.
+The instruction bound is `12*2^23+36`. The block preserves GPRs X4–X30, SIMD
+registers V6–V31, and FPCR; FPSR may accumulate floating-point exception flags.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -117,8 +126,8 @@ uses mathematical invariants rather than enumerating inputs.
 ## Remaining work
 
 1. Prove execution of the extracted words equals the algorithm for every permitted
-   caller state, including input handling, normalization, estimate instructions,
-   loop setup, and code placement. The correction/return bound is proved;
+   caller state, including input handling, normalization, and code placement.
+   The normalized-body execution bound is proved;
    the whole-program execution bound is still a test-fixture bound.
 This machine obligation blocks the requested binary32 end-to-end theorem and the
 transition to binary64. Generalizing the reusable rounding/encoding bridge to

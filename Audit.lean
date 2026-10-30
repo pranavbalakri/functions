@@ -57,3 +57,8 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.step_return
 #print axioms VerifiedSqrt.Arm.return_correct
 #print axioms VerifiedSqrt.Arm.correction_return_correct
+#print axioms VerifiedSqrt.Arm.setup_radicand_value
+#print axioms VerifiedSqrt.Arm.setup_seed_bounds
+#print axioms VerifiedSqrt.Arm.estimate_run
+#print axioms VerifiedSqrt.Arm.normalized_body_correct
+#print axioms VerifiedSqrt.Arm.normalized_body_rounds

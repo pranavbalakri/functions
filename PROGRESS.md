@@ -23,7 +23,11 @@ Updated 2026-10-30 (America/New_York).
 - `correction_return_correct` connects that loop to result encoding and RET.
   It proves the returned S0 bits equal the algorithm's rescaled result, preserves
   the caller's link register, and requires a return address outside the code.
-  Whole-program composition remains open.
+- `normalized_body_correct` connects all instructions from byte offset 100
+  through RET: Markstein/FMA evaluation, exact loop setup, correction, and result
+  encoding. `normalized_body_rounds` proves nearest-even rounding for the scaled
+  normalized input. It permits arbitrary SIMD contents and needs no estimate
+  accuracy assumption. GPRs X4–X30, SIMD registers V6–V31, and FPCR are preserved.
 - The revised assembly passed both complete 2^32 hardware sweeps, 2,204,188
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
@@ -31,8 +35,8 @@ Updated 2026-10-30 (America/New_York).
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: connect input handling, normalization, and the estimate/loop-setup
-instructions to the proved correction/return block; cover arbitrary code placement.
+Remaining: connect input handling and normalization to the proved normalized
+body; cover arbitrary code placement.
 Additional single-step tests for moves and arbitrary SIMD upper lanes remain.
 General overflow/underflow rounding lemmas are future reusable work; the corrected
 algorithm does not need them.

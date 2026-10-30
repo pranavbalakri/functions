@@ -83,4 +83,86 @@ theorem Machine.writeS_wellFormed (s : Machine) (h : s.WellFormed) (d : Nat) (w 
     (s.writeS d w).WellFormed := by
   simpa [Machine.WellFormed, Machine.writeS] using h
 
+def Machine.advanceW (s : Machine) (d : Nat) (w : UInt32) : Machine :=
+  ({s with pc := s.pc + 4} : Machine).writeW d w
+
+def Machine.advanceX (s : Machine) (d : Nat) (w : UInt64) : Machine :=
+  ({s with pc := s.pc + 4} : Machine).writeX d w
+
+theorem Machine.advanceW_pc (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceW d w).pc = s.pc + 4 := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]
+
+theorem Machine.advanceX_pc (s : Machine) (d : Nat) (w : UInt64) :
+    (s.advanceX d w).pc = s.pc + 4 := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceX, Machine.writeX, hd]
+
+theorem Machine.advanceW_size (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceW d w).x.size = s.x.size := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]
+
+theorem Machine.advanceX_size (s : Machine) (d : Nat) (w : UInt64) :
+    (s.advanceX d w).x.size = s.x.size := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceX, Machine.writeX, hd]
+
+theorem Machine.advanceW_fpcr (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceW d w).fpcr = s.fpcr := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]
+
+theorem Machine.advanceX_fpcr (s : Machine) (d : Nat) (w : UInt64) :
+    (s.advanceX d w).fpcr = s.fpcr := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceX, Machine.writeX, hd]
+
+theorem Machine.readW_advanceW_same (s : Machine) (d : Nat) (hd : d < 31)
+    (hs : s.x.size = 32) (w : UInt32) : (s.advanceW d w).readW d = w :=
+  Machine.readW_writeW_same ({s with pc := s.pc + 4} : Machine) d hd hs w
+
+theorem Machine.readX_advanceW_same (s : Machine) (d : Nat) (hd : d < 31)
+    (hs : s.x.size = 32) (w : UInt32) : (s.advanceW d w).readX d = w.toUInt64 :=
+  Machine.readX_writeW_same ({s with pc := s.pc + 4} : Machine) d hd hs w
+
+theorem Machine.readW_advanceW_ne (s : Machine) (d r : Nat) (hd : d < 31)
+    (hr : r < 31) (hne : d ≠ r) (w : UInt32) : (s.advanceW d w).readW r = s.readW r :=
+  congrArg UInt64.toUInt32 (Machine.readX_writeW_ne _ d r hd hr hne w)
+
+theorem Machine.readX_advanceW_ne (s : Machine) (d r : Nat) (hd : d < 31)
+    (hr : r < 31) (hne : d ≠ r) (w : UInt32) : (s.advanceW d w).readX r = s.readX r :=
+  Machine.readX_writeW_ne _ d r hd hr hne w
+
+theorem Machine.readX_advanceX_same (s : Machine) (d : Nat) (hd : d < 31)
+    (hs : s.x.size = 32) (w : UInt64) : (s.advanceX d w).readX d = w :=
+  Machine.readX_writeX_same ({s with pc := s.pc + 4} : Machine) d hd hs w
+
+theorem Machine.readW_advanceX_ne (s : Machine) (d r : Nat) (hd : d < 31)
+    (hr : r < 31) (hne : d ≠ r) (w : UInt64) : (s.advanceX d w).readW r = s.readW r :=
+  congrArg UInt64.toUInt32 (Machine.readX_writeX_ne _ d r hd hr hne w)
+
+theorem Machine.readX_advanceX_ne (s : Machine) (d r : Nat) (hd : d < 31)
+    (hr : r < 31) (hne : d ≠ r) (w : UInt64) : (s.advanceX d w).readX r = s.readX r :=
+  Machine.readX_writeX_ne _ d r hd hr hne w
+
+theorem Machine.advanceW_vectors (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceW d w).v = s.v := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]
+
+theorem Machine.advanceX_vectors (s : Machine) (d : Nat) (w : UInt64) :
+    (s.advanceX d w).v = s.v := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceX, Machine.writeX, hd]
+
+theorem Machine.advanceW_fpsr (s : Machine) (d : Nat) (w : UInt32) :
+    (s.advanceW d w).fpsr = s.fpsr := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceW, Machine.writeW, hd]
+
+theorem Machine.advanceX_fpsr (s : Machine) (d : Nat) (w : UInt64) :
+    (s.advanceX d w).fpsr = s.fpsr := by
+  by_cases hd : d = 31 <;> simp [Machine.advanceX, Machine.writeX, hd]
+
+theorem Machine.readS_advanceW (s : Machine) (d r : Nat) (w : UInt32) :
+    (s.advanceW d w).readS r = s.readS r := by
+  simp only [Machine.readS, Machine.advanceW_vectors]
+
+theorem Machine.readS_advanceX (s : Machine) (d r : Nat) (w : UInt64) :
+    (s.advanceX d w).readS r = s.readS r := by
+  simp only [Machine.readS, Machine.advanceX_vectors]
+
 end VerifiedSqrt.Arm
