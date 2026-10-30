@@ -80,3 +80,7 @@ import VerifiedSqrt
 #print axioms VerifiedSqrt.Arm.machine_sqrt32_correct
 #print axioms VerifiedSqrt.Arm.machine32_eq_algorithm32
 #print axioms VerifiedSqrt.Arm.machine32_correct
+#print axioms VerifiedSqrt.Arm.branchPC_relocate
+#print axioms VerifiedSqrt.Arm.sqrt32_step_relocate
+#print axioms VerifiedSqrt.Arm.runAt_relocate
+#print axioms VerifiedSqrt.Arm.sqrt32_relocated_correct

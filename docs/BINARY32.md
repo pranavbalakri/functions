@@ -149,6 +149,16 @@ proves the result specification for all 2^32 input encodings and both DN setting
 The existing 2^28 fixture budget is now proved sufficient. These are universal
 proofs, independent of the exhaustive hardware tests.
 
+`RelocatedSqrt32.lean` removes the address-zero restriction.
+`sqrt32_relocated_correct` proves the same all-input result for every aligned
+64-bit load address and a return address outside the loaded code. `runAt` fetches
+instructions relative to that base. The proof translates PC and X30 together,
+proves that each extracted opcode commutes with translation, and composes those
+steps with the address-zero theorem. Address arithmetic includes modular
+wraparound. `Relocation.lean`, `LocatedExecution.lean`, `RelocatedExecution.lean`,
+and `StepInvariants.lean` contain the reusable state and execution lemmas;
+the opcode certificates are specific to this routine.
+
 Earlier attempts to prove the original FMA-only core by kernel enumeration were
 impractical: the direct finite universal proof hit a recursion limit, and a
 balanced 4,096-input trial exceeded 45 seconds. The current universal core proof
@@ -156,11 +166,9 @@ uses mathematical invariants rather than enumerating inputs.
 
 ## Remaining work
 
-The all-input machine theorem uses code loaded at modeled address zero.
-Generalizing execution to arbitrary aligned load addresses remains open; this
-relocation obligation must be closed before starting binary64. Remaining integer
-instruction forms also need separate single-step hardware comparisons, beyond
-their existing coverage in complete routine executions.
+Remaining integer instruction forms need separate single-step hardware
+comparisons, beyond their existing coverage in complete routine executions.
+Binary64 implementation and proof follow these checks.
 
 Generalizing the reusable rounding/encoding bridge to all overflow and underflow
 cases is future work; the corrected algorithm needs only the exact scaling cases

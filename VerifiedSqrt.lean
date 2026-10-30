@@ -19,4 +19,5 @@ public import VerifiedSqrt.Arm.CorrectionReturn32
 public import VerifiedSqrt.Arm.NormalizedBody32
 public import VerifiedSqrt.Arm.NormalizeReturn32
 public import VerifiedSqrt.Arm.Initial32
+public import VerifiedSqrt.Arm.RelocatedSqrt32
 public import VerifiedSqrt.Arm.EstimateProof

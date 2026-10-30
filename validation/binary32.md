@@ -85,5 +85,6 @@ present. `algorithm32_correct` proves the algorithm for every binary32 input.
 arbitrary register contents, supported controls, entry PC zero, and a return
 address outside the code. `machine32_correct` proves the executable fixture's
 result specification for every input and both DN settings. The 2026-10-30 audit
-is recorded in [proof-audit.log](proof-audit.log). Relocation to arbitrary code
-addresses remains open; see [the exact obligations](../docs/BINARY32.md).
+is recorded in [proof-audit.log](proof-audit.log). `sqrt32_relocated_correct`
+extends the result to every aligned load address with the same preconditions
+and instruction bound. See [the proof details](../docs/BINARY32.md).

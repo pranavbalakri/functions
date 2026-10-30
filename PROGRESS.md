@@ -15,6 +15,10 @@ Updated 2026-10-30 (America/New_York).
   assumes supported FP controls, 32-entry register arrays, entry PC zero, and a
   return address outside the code. It proves termination within 12*2^23+61
   instructions and preserves X5–X30, V6–V31, and FPCR.
+- `sqrt32_relocated_correct` extends this result to every aligned code address,
+  with the same controls, return-address requirement, bound, and register frame.
+  It proves translation of every extracted opcode and composes these steps;
+  address arithmetic is modulo 2^64, including wraparound.
 - `machine32_correct` proves the executable machine fixture returns the specified
   result for all 2^32 encodings and both DN settings. No enumeration is used in
   the all-input proof. The correction proof needs no estimate accuracy bound.
@@ -26,10 +30,8 @@ Updated 2026-10-30 (America/New_York).
 - No admitted goals, new axioms, or native proof computation. Kernel axiom audits
   pass. [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: generalize execution from modeled code address zero to arbitrary
-aligned load addresses; add single-step tests for the remaining integer forms.
-Then implement and prove binary64. General overflow/underflow rounding lemmas
+Remaining: add single-step tests for the remaining integer forms, then implement
+and prove binary64. General overflow/underflow rounding lemmas
 are future reusable work; binary32 needs only the exact scaling cases proved.
 
-Do not start binary64 before closing the binary32 relocation obligation. Ask
-before native proof computation. Only the README Layout section may be edited.
+Ask before native proof computation. Only the README Layout section may be edited.
