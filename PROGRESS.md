@@ -32,12 +32,13 @@ Updated 2026-10-30 (America/New_York).
   machine/algorithm/hardware comparisons, all 16,777,216 core checks, 8,025,088
   integer/branch instruction comparisons, and 1,000,012 forced-correction tests.
   The unchanged FP model previously passed 17,077,262 comparisons.
+- Another 4,595,820 hardware comparisons cover scalar moves and floating-point
+  instructions with arbitrary SIMD upper bits, existing FPSR flags, and NZCV.
 - No new axioms, admitted proofs, or native proof computation. Axiom audits pass.
   [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
 Remaining: connect input handling and normalization to the proved normalized
 body; cover arbitrary code placement.
-Additional single-step tests for moves and arbitrary SIMD upper lanes remain.
 General overflow/underflow rounding lemmas are future reusable work; the corrected
 algorithm does not need them.
 

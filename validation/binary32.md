@@ -34,6 +34,7 @@ Lean proofs. `make test` reproduces the complete set.
 | FNMSUB S model versus hardware | 2,659,582 | Zero mismatches in result bits and FPSR |
 | FNMADD S model versus hardware | 2,659,582 | Zero mismatches in result bits and FPSR |
 | Integer/branch model versus hardware | 8,025,088 | Zero register, NZCV, PC, or preserved-state mismatches |
+| Scalar moves/FP with full SIMD operands (2026-10-30) | 4,595,820 | Zero destination, FPSR, or NZCV mismatches |
 | Forced correction-loop starts | 1,000,012 | Zero mismatches with FSQRT |
 | Exact integer certificates for the Lean core | 16,777,216 | All strict midpoint inequalities hold |
 | Extracted-code execution versus algorithm and hardware | 2,204,188 | Zero mismatches in result bits and FPSR |
@@ -63,11 +64,23 @@ test uses seed `a54ff53a5f1d36f1`, deliberately starts above and below the answe
 and includes endpoint seeds millions of steps away. The test-only exported
 correction label adds no instructions to the production routine.
 
+The scalar-state oracle uses seed `510e527fade682d1`, with 200,000 random operand
+tuples per instruction per DN setting and all triples from the same 31 edge
+values. It tests FMOV W←S, FMOV S←W, FMOV S immediate, and the seven floating-point
+operations listed above. Source and destination SIMD upper bits are randomized,
+as are the initial X destination, NZCV, and writable FPSR flags. Hardware records
+contain the complete 128-bit SIMD destination, 64-bit GPR destination, FPSR, and
+NZCV after the instruction. The checker also verifies the model's preservation
+of other registers and FPCR and its PC increment. Outputs are recorded in
+[scalar-state.log](scalar-state.log). The assembly routine and instruction model
+were unchanged, so the exhaustive sweeps were not repeated for this addition.
+
 ## Proof audit
 
 `make all` and `lake env lean --trust=0 Audit.lean` passed. The estimate-table bound
 has no axiom dependencies. The other audited results use subsets of `propext`,
 `Classical.choice`, and `Quot.sound`. No `sorryAx` or native-computation axiom is
-present. `coreCorrect32` and `normalizedCore32_correct` now have proofs for all
-normalized inputs. The full all-input and machine-equivalence theorems remain
+present. `algorithm32_correct` proves the algorithm for every binary32 input.
+`normalized_body_rounds` proves machine execution and rounding from the normalized
+core's entry through return. The complete machine-equivalence theorem remains
 unproved; see [the exact open obligations](../docs/BINARY32.md).
