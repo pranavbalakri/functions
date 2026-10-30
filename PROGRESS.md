@@ -23,15 +23,17 @@ Updated 2026-10-30 (America/New_York).
   result for all 2^32 encodings and both DN settings. No enumeration is used in
   the all-input proof. The correction proof needs no estimate accuracy bound.
 - Assembly passed both full 2^32 hardware sweeps, 2,204,188 machine comparisons,
-  16,777,216 core certificates, 8,025,088 integer/branch comparisons, and
+  16,777,216 core certificates, 33,103,488 integer/branch comparisons, and
   1,000,012 forced-correction tests. FP operations passed 17,077,262 comparisons;
   another 4,595,820 scalar-state cases cover moves, arbitrary SIMD upper bits,
   existing FPSR flags, and NZCV.
 - No admitted goals, new axioms, or native proof computation. Kernel axiom audits
   pass. [Validation](validation/binary32.md). [Proof details](docs/BINARY32.md).
 
-Remaining: add single-step tests for the remaining integer forms, then implement
-and prove binary64. General overflow/underflow rounding lemmas
+- All integer forms used by binary32 now have separate single-step hardware
+  coverage. Binary64's scalar model is being validated against hardware.
+
+Remaining: binary64 implementation and proof. General overflow/underflow rounding lemmas
 are future reusable work; binary32 needs only the exact scaling cases proved.
 
 Ask before native proof computation. Only the README Layout section may be edited.

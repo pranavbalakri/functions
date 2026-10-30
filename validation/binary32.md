@@ -33,7 +33,7 @@ Lean proofs. `make test` reproduces the complete set.
 | FMSUB S model versus hardware | 2,659,582 | Zero mismatches in result bits and FPSR |
 | FNMSUB S model versus hardware | 2,659,582 | Zero mismatches in result bits and FPSR |
 | FNMADD S model versus hardware | 2,659,582 | Zero mismatches in result bits and FPSR |
-| Integer/branch model versus hardware | 8,025,088 | Zero register, NZCV, PC, or preserved-state mismatches |
+| Integer/branch model versus hardware (expanded 2026-10-30) | 33,103,488 | Zero register, NZCV, PC, or preserved-state mismatches |
 | Scalar moves/FP with full SIMD operands (2026-10-30) | 4,595,820 | Zero destination, FPSR, or NZCV mismatches |
 | Forced correction-loop starts | 1,000,012 | Zero mismatches with FSQRT |
 | Exact integer certificates for the Lean core | 16,777,216 | All strict midpoint inequalities hold |
@@ -57,9 +57,13 @@ The full binary32 sweeps include every power of two, every subnormal, every NaN
 payload, the largest finite value, and every representable neighbor of a perfect
 square. Their comparison is bitwise, not numerical equality of C floats.
 
-The integer oracle tests X LSLV, UMULL, W/X CMP, B, B.EQ, B.LO, and B.HI, with
-one million random tuples per operation plus every pair from 14 boundary values
-and all 16 NZCV settings. Its seed is `3c6ef372fe94f82b`. The forced-correction
+The integer oracle tests 33 forms: X LSLV, UMULL, W/X CMP, forward/backward B,
+B.EQ/B.LO/B.HI, all W immediate masks and MOVZ/MOVN constants used by the routine,
+UBFX, ASR, immediate ADD/SUB, shifted ADD/ORR, CBZ/CBNZ, TBZ/TBNZ, and RET.
+It uses one million random tuples per form plus every pair from 14 boundary
+values and all 16 NZCV settings. Its seed is `3c6ef372fe94f82b`; RET chooses
+between two valid return labels. Outputs are in [integer-forms.log](integer-forms.log).
+This supersedes the earlier eight-form, 8,025,088-case run. The forced-correction
 test uses seed `a54ff53a5f1d36f1`, deliberately starts above and below the answer,
 and includes endpoint seeds millions of steps away. The test-only exported
 correction label adds no instructions to the production routine.

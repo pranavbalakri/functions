@@ -64,8 +64,8 @@ other initial general registers are zero, and its execution budget is 2^28.
 DN settings. The stronger `machine_sqrt32_correct` permits arbitrary register
 contents and any return address outside the code, proves termination within
 12*2^23+61 instructions, and establishes algorithm equality and register/frame
-conditions. It retains entry PC zero; relocation to arbitrary aligned code
-addresses remains unproved.
+conditions. `sqrt32_relocated_correct` extends this result to arbitrary aligned
+code addresses, including modular address wraparound.
 
 `Registers.lean` proves model-level write/read and preservation properties for
 well-sized register arrays. `InstructionProof.lean` proves symbolic semantics
@@ -86,5 +86,8 @@ W/X CMP, B, B.EQ, B.LO, and B.HI. The added integer forms were transcribed from
 Eight million random cases plus boundary cases check registers, NZCV, PC, and
 preservation of SIMD/control state. Another 4,595,820 comparisons cover scalar
 moves and FP operations with arbitrary SIMD upper bits, initial FPSR, and NZCV.
-The remaining integer forms are exercised in complete routine executions;
-separate single-step tests for those forms remain outstanding.
+The expanded integer oracle also covers every immediate mask, move, extraction,
+shift, add/subtract form used by the routine, CBZ/CBNZ, TBZ/TBNZ, RET, and backward
+B. It passed 33,103,488 comparisons: one million random tuples per form plus
+boundary values and every NZCV setting. RET tests choose between two real code
+addresses. The scalar and whole-routine tests cover the remaining instructions.
