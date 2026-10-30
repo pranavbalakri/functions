@@ -3,12 +3,9 @@ module
 public import Mathlib.Analysis.Real.Sqrt
 public import Mathlib.Tactic.Ring
 public import Mathlib.Tactic.Linarith
-public import VerifiedSqrt.Float.Dyadic
+public import VerifiedSqrt.Float.DyadicReal
 
 namespace VerifiedSqrt
-
-public noncomputable def Dyadic.toReal (x : Dyadic) : ℝ :=
-  (x.coefficient : ℝ) * (2 : ℝ) ^ x.exponent
 
 public theorem midpoint_certificate (n q : ℝ) (hn : 0 ≤ n) (hq : 1 ≤ q)
     (lo : (2 * q - 1) ^ 2 < 4 * n) (hi : 4 * n < (2 * q + 1) ^ 2) :

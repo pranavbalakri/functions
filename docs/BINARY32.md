@@ -70,7 +70,9 @@ No admitted theorem or weakened replacement was added.
 
 The remaining work is:
 
-1. Prove the exact dyadic rounding implementation corresponds to real RN-even.
+1. Connect the proved real RN-even semantics of dyadic rounding to the binary32
+   encoder, exponent selection, and overflow/underflow behavior. The reusable
+   arithmetic and rounding proofs are described in [ROUNDING.md](ROUNDING.md).
 2. Prove `CoreCorrect32`, using Arm-specific error bounds plus a certified hard-case
    analysis, or a kernel-checked finite computation. No native proof computation
    is authorized.

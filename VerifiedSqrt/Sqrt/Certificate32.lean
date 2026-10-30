@@ -2,6 +2,7 @@ module
 
 public import VerifiedSqrt.Sqrt.Algorithm32
 public import VerifiedSqrt.Float.Real
+public import VerifiedSqrt.Float.Rounding
 
 namespace VerifiedSqrt.Sqrt
 
@@ -30,6 +31,17 @@ public theorem certificate32_sound (x : UInt32) (h : coreCertificate32 x = true)
   have bounds := midpoint_certificate (n : ℝ) (q : ℝ) (by positivity) hqR hloR hhiR
   change |(q : ℝ) - Real.sqrt n| < 1 / 2
   exact abs_lt.mpr ⟨by linarith [bounds.2], by linarith [bounds.1]⟩
+
+public theorem certificate32_nearest (x : UInt32) (h : coreCertificate32 x = true) :
+    NearestEvenInteger (Real.sqrt (normalizedRadicand32 x))
+      (normalizedSignificand32 (core32 x)) := by
+  apply nearestEvenInteger_of_lt
+  simpa only [Int.cast_natCast] using certificate32_sound x h
+
+public theorem certificate32_unique (x : UInt32) (h : coreCertificate32 x = true)
+    (q : Int) (hq : NearestEvenInteger (Real.sqrt (normalizedRadicand32 x)) q) :
+    q = normalizedSignificand32 (core32 x) :=
+  nearestEvenInteger_unique hq (certificate32_nearest x h)
 
 #print axioms certificate32_sound
 
