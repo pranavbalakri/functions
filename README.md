@@ -11,7 +11,6 @@ This repository contains Lean-verified assembly implementations of the square ro
 - `tests/`: C hardware oracles and comparison harnesses.
 - `validation/`: recorded test results and kernel axiom audit.
 - [docs/BUILD.md](docs/BUILD.md): precise theorem, assumptions, and reproduction guide.
-- [PROGRESS.md](PROGRESS.md): completed milestones.
 
 For every binary32 or binary64 input, the assembled routine returns the true
 square root rounded to nearest, ties to even, with IEEE special-value handling.
